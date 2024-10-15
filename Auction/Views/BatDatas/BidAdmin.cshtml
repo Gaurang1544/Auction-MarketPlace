@@ -1,0 +1,178 @@
+﻿@model IEnumerable<Auction.Models.BatData>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using PagedList.Mvc
+@using PagedList
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card</title>
+    <style>
+        .main-Pro {
+            display: flex;
+            width: 100%;
+        }
+
+        .profile-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 220px;
+            text-align: center;
+            margin: 10px;
+        }
+
+            .profile-card .image-container {
+                position: relative;
+                width: 100%;
+                padding-top: 100%; /* 1:1 Aspect Ratio */
+                background-color: #333;
+                overflow: hidden;
+            }
+
+                .profile-card .image-container img {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    filter: brightness(0.5);
+                }
+
+            .profile-card h2 {
+                margin: 10px 0;
+                font-size: 22px;
+                font-weight: bold;
+            }
+
+            .profile-card p {
+                font-size: 14px;
+                color: #555;
+            }
+
+            .profile-card .stats {
+                display: flex;
+                justify-content: space-around;
+                padding: 20px 0;
+                border-top: 1px solid #eee;
+                border-bottom: 1px solid #eee;
+            }
+
+                .profile-card .stats div {
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+
+                    .profile-card .stats div span {
+                        display: block;
+                        font-size: 12px;
+                        color: #777;
+                        font-weight: normal;
+                    }
+
+            .profile-card .actions {
+                display: flex;
+                justify-content: center;
+                padding: 20px;
+            }
+
+                .profile-card .actions button {
+                    padding: 10px 20px;
+                    margin: 0 5px;
+                    border: none;
+                    border-radius: 25px;
+                    background: #f06292;
+                    color: #fff;
+                    cursor: pointer;
+                    font-size: 14px;
+                }
+
+                    .profile-card .actions button.message {
+                        background: #e0e0e0;
+                        color: #333;
+                    }
+
+                    .profile-card .actions button:focus {
+                        outline: none;
+                    }
+
+            .profile-card .icon-container {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: #fff; /* White background for visibility */
+                border-radius: 50%;
+                margin: 1px auto;
+            }
+
+                /* Icon styles */
+                .profile-card .icon-container i {
+                    font-size: 20px;
+                    margin: 2px 2px;
+                    color: #4caf50; /* Green color for the icon */
+                }
+
+            /* Other existing styles */
+            .profile-card .image-container img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: brightness(0.6);
+            }
+    </style>
+</head>
+<body>
+    <h1> Auction</h1>
+    <div class="main-Pro">
+        @{
+            var notAcceptedProductIds = ViewBag.NotAcceptedProductIds as List<int>; // Get the combined IDs
+            var groupedItems1 = Model.GroupBy(item => item.CustProduct.Id).ToList(); // Group by CustProduct.Id
+        }
+
+        @foreach (var group in groupedItems1)
+        {
+            var firstItem = group.First();
+
+            // Check if the product has expired and is not in the accepted orders
+            bool isNotInOrderTable = !notAcceptedProductIds.Contains(firstItem.CustProduct.Id);
+
+            if (firstItem.CustProduct.End_time < DateTime.Now && isNotInOrderTable)
+            {
+                <div class="profile-card">
+                    <div class="image-container">
+                        <a href="@Url.Action("BidDetail", "BatDatas", new { id = firstItem.ProId })">
+                            <img src="@Url.Content("~/ProductImage/" + firstItem.CustProduct.Image1)" alt="Product Image" />
+                        </a>
+                        <div class="icon-container">
+                            <i class="fas fa-check-circle"></i> <!-- Font Awesome icon -->
+                        </div>
+                    </div>
+                    <h2>@firstItem.CustProduct.Name</h2>
+                    <p>@firstItem.CustProduct.Category.Name</p>
+                    <div class="stats">
+                        <div>
+                            @firstItem.CustProduct.Price <span>Price</span>
+                        </div>
+                        <div>
+                            @group.Max(x => x.Price) <span>Current Bid</span>
+                        </div>
+                        <div>
+                            @group.Count() <span>Total Bids</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+        @Html.PagedListPager((IPagedList<Auction.Models.BatData>)ViewBag.PagedList1, page1 => Url.Action("BidAdmin", "BatDatas", new { page1 = page1, search = Request.QueryString["search"] }))
+</body>
+</html>

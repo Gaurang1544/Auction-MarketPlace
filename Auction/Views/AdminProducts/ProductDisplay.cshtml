@@ -1,0 +1,242 @@
+﻿@model IEnumerable<Auction.Models.Order_01>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-cat {
+            width: 100%;
+            height: 60px;
+            background: #ffffff;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            /*position:fixed;*/
+        }
+
+        .table-1 {
+            padding: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #f5f1f1;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f3f8f8;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f6fafae3;
+        }
+
+        tr:hover {
+            background-color: #f1f8f8;
+        }
+
+        .navbar-cat1 {
+            padding: 5px;
+            color: #fff;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+            .navbar-cat1 .dropdown,
+            .navbar-cat1 .dropdown-second {
+                margin-right: 10px;
+            }
+
+
+
+        .dropdown-toggle {
+            width: 130px;
+            height: 29px; /* Increased height */
+            font-size: 16px; /* Increased font size */
+            border: none;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+        }
+
+        .dropdown-menu {
+            min-width: 300px; /* Increased width */
+        }
+
+            .dropdown-menu li a {
+                padding: 10px 15px; /* Increased padding for larger items */
+                font-size: 16px; /* Increased font size for better readability */
+            }
+
+        .search-box {
+            display: flex;
+            align-items: center; /* Align items vertically center */
+            border: none;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+            .search-box input {
+                flex: 1; 
+                border: none;
+                padding: 10px;
+                height: 44px;
+                width: 380px;
+                font-size: 16px;
+                border-radius: 4px 0 0 4px; /* Rounded corners on the left */
+                outline: none;
+                box-shadow:0px 0px 5px rgba(0,0,0,0.5);
+            }
+
+            .search-box i {
+                padding: 10px;
+                font-size: 24px;
+                color: #333;
+                border-radius: 0 4px 4px 0; /* Rounded corners on the right */
+                background-color: #e9ecef; /* Light gray background for the icon */
+                cursor: pointer;
+                box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+            }
+    </style>
+</head>
+<body>
+
+    <div class="navbar-cat1">
+        <!-- Category Dropdown -->
+        <div class="dropdown">
+            <div class="form-group">
+                <label for="selectedCategory">Select Category:</label>
+                <form action="@Url.Action("ProductList")" method="get" id="categoryForm" class="form-inline">
+                    <select name="selectedCategory" id="selectedCategory" class="form-control" onchange="document.getElementById('categoryForm').submit();">
+                        <option value="">Select a Category</option>
+                        @*@foreach (var item in ViewBag.category)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }*@
+                    </select>
+                </form>
+            </div>
+        </div>
+        <form action="@Url.Action("ProductList")" method="get" class="form-inline">
+            <div class="search-box">
+                <input type="text" name="searchQuery" class="form-control" placeholder="Search..." value="@Request.QueryString["searchQuery"]">
+                <button type="submit" style="border:none;"><i class="fa fa-search"></i></button>
+            </div>
+        </form>
+        <!-- Second Dropdown -->
+        <div class="dropdown dropdown-second">
+            <button class="btn btn-default dropdown-toggle" type="button" id="secondDropdown" data-toggle="dropdown" aria-expanded="true">
+                Sort By
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="secondDropdown">
+                <li><a href="@Url.Action("ProductList", new { sortOrder = "price_asc" })">Price Low To High</a></li>
+                <li><a href="@Url.Action("ProductList", new { sortOrder = "price_desc" })">Price High To Low</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="table-1">
+        <table class="table-2" id="productTable">
+            <tr>
+                <th></th>
+                <th>Product Name</th>
+                <th>Winner Name</th>
+                <th>Price</th>
+                <th>Categoy</th>
+                <th>Type</th>
+                <th>Winning Date</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                if (item.Approve == "Accepted")
+                {
+                <tr class="table-row">
+                    <td><img src="@Url.Content("~/ProductImage/" + item.CustProduct.Image1)" height="50px" /></td>
+                    <td>@item.CustProduct.Name</td>
+                    <td>@item.Registration.First_Name @item.Registration.LastName</td>
+                    <td>$ @item.price</td>
+                    <td>@item.CustProduct.Category.Name</td>
+                    <td>@item.CustProduct.ProName.Name</td>
+                    <td>@item.date</td>
+                </tr>
+                }
+            }
+        </table>
+
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+    <script>
+        const rowsPerPage = 10; // Number of rows to display per page
+        const tableRows = document.querySelectorAll("#productTable .table-row");
+        const totalPages = Math.ceil(tableRows.length / rowsPerPage);
+        const paginationContainer = document.getElementById("pagination");
+
+        function displayPage(page) {
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            tableRows.forEach((row, index) => {
+                row.style.display = (index >= start && index < end) ? "" : "none";
+            });
+
+            createPaginationButtons(page);
+        }
+
+        function createPaginationButtons(currentPage) {
+            paginationContainer.innerHTML = "";
+
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement("button");
+                button.innerText = i;
+                button.classList.add("pagination-button");
+                button.onclick = () => displayPage(i);
+                if (i === currentPage) button.classList.add("active");
+
+                paginationContainer.appendChild(button);
+            }
+        }
+
+        // Initial call to display the first page
+        displayPage(1);
+    </script>
+
+    <style>
+        .pagination {
+            /*display: flex;
+            justify-content: center;*/
+            margin-top: 20px;
+        }
+
+        .pagination-button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #007BFF;
+            background: none;
+            color: #007BFF;
+            cursor: pointer;
+        }
+
+            .pagination-button.active {
+                background-color: #007BFF;
+                color: white;
+            }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

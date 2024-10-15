@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Auction.Models.Category>
+<select class="drop" id="categoryDropdown">
+    <option class="select1" value="">CATEGORIES</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>
+<script>
+    document.getElementById('categoryDropdown').addEventListener('change', function() {
+        var selectedValue = this.value;
+        if (selectedValue) {
+            window.location.href = '@Url.Action("MainHomePage", "Home")?id=' + selectedValue;
+        }
+    });
+</script>

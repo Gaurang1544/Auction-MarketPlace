@@ -1,0 +1,444 @@
+﻿@model IEnumerable<Auction.Models.BatData>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var now = DateTime.Now; // or DateTime.UtcNow if you're working with UTC
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="60">
+    <title>Profile Card</title>
+    <style>
+        .product-container {
+            display: flex;
+            flex-direction: column; /* Stack vertically on smaller screens */
+            max-width: 1400px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        @@media (min-width: 768px) {
+            .product-container {
+                flex-direction: row; /* Row layout on larger screens */
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .details-section {
+                margin-top: 20px; /* Space between sections on smaller screens */
+            }
+
+            .product-container {
+                padding: 10px; /* Reduce padding on smaller screens */
+            }
+        }
+
+        .image-section {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+            .image-section .main-image {
+                width: 100%;
+                height: auto;
+                border-radius: 8px;
+            }
+
+        .thumbnail-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+            .thumbnail-container img {
+                width: 80px;
+                height: 80px;
+                cursor: pointer;
+                border-radius: 5px;
+                transition: 0.3s;
+                box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+            }
+
+                .thumbnail-container img:hover {
+                    /*border: 2px solid #333;*/
+                    box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+                }
+
+        .details-section {
+            flex: 1.5;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #333;
+        }
+
+        .visit-store {
+            text-decoration: none;
+            color: #1e88e5;
+            font-size: 1em;
+            margin: 5px 0;
+            display: inline-block;
+        }
+
+        .pricing {
+            margin: 10px 0;
+        }
+
+            .pricing .new-price {
+                font-size: 1.5em;
+                color: #d9534f;
+            }
+
+        .description {
+            margin: 15px 0;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .features {
+            list-style-type: none;
+            padding: 0;
+            color: #555;
+        }
+
+            .features li {
+                margin: 10px 0;
+                font-size: 0.9em;
+            }
+
+            .features i {
+                color: #5cb85c;
+                margin-right: 10px;
+            }
+
+        #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #customers td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #customers tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #customers tr:hover {
+                background-color: #ddd;
+            }
+
+            #customers th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #04AA6D;
+                color: white;
+            }
+
+        .container-box {
+            width: 100%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 5px;
+            border-radius: 8px;
+            margin: 5px auto;
+        }
+
+        .title {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .winner-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+            .winner-table th, .winner-table td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: center;
+            }
+
+            .winner-table th {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .winner-table tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            .winner-table tr:hover {
+                background-color: #ddd;
+            }
+
+        .winner-btn {
+            outline: none;
+            border: none;
+            background: #5cb85c;
+            padding: 5px;
+            border-radius: 2px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .heading {
+            font-weight: bold;
+            margin: 50px auto 10px auto;
+            font-size: 40px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="product-container">
+        @foreach (var item in Model)
+        {
+            <div class="image-section">
+                <img id="mainImage" src="@Url.Content("~/ProductImage/" + item.CustProduct.Image1)" id="mainImage" class="main-image" />
+                <div class="thumbnail-container">
+                    <img src="@Url.Content("~/ProductImage/" + item.CustProduct.Image1)" onclick="updateMainMedia(this)" />
+                    <img src="@Url.Content("~/ProductImage/" + item.CustProduct.Image2)" onclick="updateMainMedia(this)" />
+                    <img src="@Url.Content("~/ProductImage/" + item.CustProduct.Image3)" onclick="updateMainMedia(this)" />
+                    <img src="@Url.Content("~/ProductImage/" + item.CustProduct.Image4)" onclick="updateMainMedia(this)" />
+                </div>
+            </div>break;
+        }
+        <script>
+            function updateMainMedia(clickedElement) {
+                if (clickedElement.tagName.toLowerCase() === 'img') {
+                    var newSrc = clickedElement.src;
+                    document.getElementById('mainImage').src = newSrc;
+                    document.getElementById('mainImage').style.display = 'block';
+                    document.getElementById('mainVideo').style.display = 'none';
+                }
+            }
+        </script>
+        @{
+            string maxPrice = Model.Max(bid => bid.Price).ToString();
+            int count = Model?.Count() ?? 0;
+        }
+        <div class="details-section">
+            @foreach (var item in Model)
+            {
+                <script>
+                    function startCountdown(elementId, days, hours, minutes, seconds) {
+                        var countdownElement = document.getElementById(elementId);
+                        var totalSeconds = days * 86400 + hours * 3600 + minutes * 60 + seconds;
+
+                        var interval = setInterval(function () {
+                            if (totalSeconds <= 0) {
+                                clearInterval(interval);
+                                countdownElement.innerHTML = "Auction Ended";
+                                return;
+                            }
+
+                            totalSeconds--;
+
+                            var d = Math.floor(totalSeconds / 86400);
+                            var h = Math.floor((totalSeconds % 86400) / 3600);
+                            var m = Math.floor((totalSeconds % 3600) / 60);
+                            var s = totalSeconds % 60;
+
+                            countdownElement.innerHTML = `${d} : ${h} : ${m} : ${s}`;
+                        }, 1000);
+                    }
+                </script>
+                <div style="display:flex;justify-content:space-between">
+                    <h1>@item.CustProduct.Name</h1>
+                    <div class="datetime">
+                        <div>
+                            <h4>Auction Time</h4>
+                            @{var endTime = item.CustProduct.End_time;
+                                if (endTime.HasValue)
+                                {
+                                    TimeSpan timeRemaining = endTime.Value - now;
+
+                                    int days = timeRemaining < TimeSpan.Zero ? 0 : timeRemaining.Days;
+                                    int hours = timeRemaining < TimeSpan.Zero ? 0 : timeRemaining.Hours;
+                                    int minutes = timeRemaining < TimeSpan.Zero ? 0 : timeRemaining.Minutes;
+                                    int seconds = timeRemaining < TimeSpan.Zero ? 0 : timeRemaining.Seconds;
+
+                                    <div style="display:flex;justify-content:space-between">
+                                        <p id="countdown-@item.CustProduct.Id" style="font-size:20px;">
+                                            @string.Format("{0:D2} : {1:D2} : {2:D2} : {3:D2}", days, hours, minutes, seconds)
+                                        </p>
+                                        <script>
+                                        startCountdown("countdown-@item.CustProduct.Id", @days, @hours, @minutes, @seconds);
+                                        </script>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="pricing">
+                    @* <span class="old-price">&#8377; @item.CustProduct.Price</span>*@
+                    <span class="new-price">&#8377; @item.CustProduct.Price</span>
+                </div>
+                <p class="description">
+                    @item.CustProduct.Description
+                </p>
+                <p>End Time: @item.CustProduct.End_time</p>
+                <p>Current Time: @now</p>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Type: @item.CustProduct.Category.Name</li>
+                    <li><i class="fas fa-check-circle"></i> Available: in stock</li>
+                    <li><i class="fas fa-check-circle"></i> Category: @item.CustProduct.ProName.Name </li>
+                    <li><i class="fas fa-check-circle"></i> Shipping Area: All over the world</li>
+                    <li><i class="fas fa-check-circle"></i> Shipping Fee: Free</li>
+                </ul>
+                break;
+            }
+
+        </div>
+    </div>
+    <h1 class="heading">Auction Information</h1>
+    <div class="product-container">
+        @{
+            int winner = 0;
+            var firstItem = Model.OrderByDescending(item => item.Price).FirstOrDefault();
+            var secondItem = Model.OrderByDescending(item => item.Price).Skip(1).FirstOrDefault();
+
+            // Check if the winners' time has ended
+            if (firstItem != null && firstItem.CustProduct.End_time <= DateTime.Now)
+            {
+                winner = 1;
+            }
+            if (secondItem != null && secondItem.CustProduct.End_time <= DateTime.Now)
+            {
+                winner = 1;
+            }
+        }
+
+        @if (TempData["Message"] != null)
+        {
+        <div class="alert alert-info">@TempData["Message"]</div>
+        }
+
+        @if (winner == 0)
+        {
+            <table id="customers">
+                <tr>
+                    <th>Rank</th>
+                    <th>User Name</th>
+                    <th>Contact</th>
+                    <th>Country</th>
+                    <th>Time</th>
+                    <th>Price</th>
+                </tr>
+                @{ int index = 1; }
+                @foreach (var item in Model.OrderByDescending(item => item.Price))
+                {
+                    if (item.CustProduct.End_time > DateTime.Now)
+                    {
+                        <tr>
+                            <td>@index</td>
+                            <td>@item.Registration.First_Name @item.Registration.LastName</td>
+                            <td>@item.Registration.Mobile</td>
+                            <td>@item.Registration.Address</td>
+                            <td>@item.Date</td>
+                            <td>@item.Price</td>
+                        </tr>
+                        index++;
+                    }
+                }
+            </table>
+        }
+
+        @if (winner == 1)
+        {
+            <div class="container-box">
+                <h1 class="title">Winner List</h1>
+                <table class="winner-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th></th>
+                            <th>Winner Name</th>
+                            <th>Bid Amount</th>
+                            <th>Date Won</th>
+                            <th>Approval</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><img src="@Url.Content("~/Images/" + firstItem.Registration.Image)" width="90px" height="auto" /></td>
+                            <td>@firstItem.Registration.First_Name @firstItem.Registration.LastName</td>
+                            <td>@firstItem.Price</td>
+                            <td>@firstItem.Date</td>
+                            <td>
+                                @foreach (var item in ViewBag.Approval)
+                                {
+                                    if (item.Bid_id == firstItem.Id)
+                                    {
+                                        <b style="color:@(item.Approve == "Accepted" ? "#5cb85c" : (item.Approve == "Panding" ? "#1e88e5" : "#d9534f"))">@item.Approve</b>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("AddOrder", "BatDatas", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="price" value="@firstItem.Price" />
+                                    <input type="hidden" name="date" value="@DateTime.Now" />
+                                    <input type="hidden" name="uid" value="@firstItem.Registration.Id" />
+                                    <input type="hidden" name="bid" value="@firstItem.Id" />
+                                    <input type="hidden" name="pid" value="@firstItem.CustProduct.Id" />
+                                    <input type="submit" value="Send Message" class="winner-btn" />
+                                }
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td><img src="@Url.Content("~/Images/" + secondItem?.Registration.Image)" width="90px" height="auto" /></td>
+                            <td>@(secondItem != null ? secondItem.Registration.First_Name + " " + secondItem.Registration.LastName : "N/A")</td>
+                            <td>@(secondItem?.Price ?? 0)</td>
+                            <td>@(secondItem?.Date ?? "N/A")</td>
+                            <td>
+                                @foreach (var item in ViewBag.Approval)
+                                {
+                                    if (item.Bid_id == secondItem?.Id)
+                                    {
+                                        <b style="color:@(item.Approve == "Accepted" ? "#5cb85c" : (item.Approve == "Panding" ? "#1e88e5" : "#d9534f"))">@item.Approve</b>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (secondItem != null)
+                                {
+                                    using (Html.BeginForm("AddOrder", "BatDatas", FormMethod.Post))
+                                    {
+                                        <input type="hidden" name="price" value="@secondItem.Price" />
+                                        <input type="hidden" name="date" value="@DateTime.Now" />
+                                        <input type="hidden" name="uid" value="@secondItem.Registration.Id" />
+                                        <input type="hidden" name="bid" value="@secondItem.Id" />
+                                        <input type="hidden" name="pid" value="@secondItem.CustProduct.Id" />
+                                        <input type="submit" value="Send Message" class="winner-btn" />
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+
+</body>
+</html>

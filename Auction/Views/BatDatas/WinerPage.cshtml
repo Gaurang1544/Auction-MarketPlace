@@ -1,0 +1,164 @@
+﻿@model IEnumerable<Auction.Models.Order_01>
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="winner-products">
+        <h1>Your Winning Auctions</h1>
+        <p>Here are the products you've won in our auctions! Please accept these items before the time ends.</p>
+
+        <div class="product-list">
+            @foreach (var item in Model)
+            {
+                if (item.U_id == Convert.ToInt32(Session["UserId"]) && item.Approve == "Panding")
+                {
+                    <div class="product-card">
+                        <img src="@Url.Content("~/ProductImage/" + item.CustProduct.Image1)" />
+                        <h3><a href="product-link.html">@item.CustProduct.Name</a></h3>
+                        <p>Auction Ended: <strong>@item.BatData.Date.AsDateTime().ToString("dd/MM/yyyy")</strong></p>
+                        <p>Winning Bid: <strong>@item.price</strong></p>
+                        <p>Status: <strong>Paid</strong></p>
+                        <div class="button-group">
+                            <!-- Wrap buttons in a div -->
+                            @using (Html.BeginForm("AcceptOrder", "BatDatas", FormMethod.Post))
+                            {
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="submit" class="accept-button" value="Accept Item">
+                            }
+                            @using (Html.BeginForm("Reject", "BatDatas", FormMethod.Post))
+                            {
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button class="reject-button">Reject Item</button>
+                            }
+
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+</body>
+</html>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f3f4f6; /* Light gray background for softness */
+        color: #333; /* Darker text color for readability */
+        margin: 0;
+        /*padding: 20px;*/
+    }
+
+    .winner-products {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #ffffff; /* White background for the main container */
+        border-radius: 12px; /* Rounded corners */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        padding: 30px;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        color: #007bff; /* Bright blue color */
+        text-align: center; /* Centered header */
+    }
+
+    p {
+        font-size: 1.1em;
+        margin-bottom: 20px;
+        text-align: center; /* Centered text for better aesthetics */
+    }
+
+    .product-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* Four columns */
+        gap: 20px; /* Space between cards */
+    }
+
+    .product-card {
+        background: #f8f9fa; /* Light card background */
+        border-radius: 12px; /* More rounded corners */
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s; /* Smoother transitions */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+    }
+
+        .product-card:hover {
+            transform: translateY(-10px); /* Lift effect on hover */
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5); /* Deeper shadow */
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px; /* Rounded corners for images */
+            max-height: 200px; /* Limit image height */
+            object-fit: cover; /* Cover to maintain aspect ratio */
+        }
+
+        .product-card h3 {
+            font-size: 1.5em;
+            margin: 10px 0;
+            color: #007bff; /* Blue color for product names */
+        }
+
+        .product-card p {
+            margin: 5px 0;
+        }
+
+        .product-card button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+    .reject-button {
+        background-color: #dc3545; /* Red for reject */
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 6px; /* More rounded corners */
+        cursor: pointer;
+        transition: background-color 0.3s; /* Smooth transition */
+        font-size: 1em; /* Button font size */
+        margin-left: 10px; /* Space between buttons */
+    }
+
+        .reject-button:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+
+    .accept-button {
+        background-color: #28a745; /* Green for accept */
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 6px; /* More rounded corners */
+        cursor: pointer;
+        transition: background-color 0.3s; /* Smooth transition */
+        font-size: 1em; /* Button font size */
+    }
+
+        .accept-button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+    .button-group {
+        display: flex; /* Use flexbox for layout */
+        justify-content: space-between; /* Space out buttons */
+        margin-top: 10px; /* Space above buttons */
+    }
+
+        .button-group input, .button-group button {
+            margin: 0 5px; /* Space between buttons */
+            flex: 1; /* Allow buttons to grow equally */
+        }
+</style>

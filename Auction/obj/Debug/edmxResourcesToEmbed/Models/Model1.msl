@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AuctionDataModelStoreContainer" CdmEntityContainer="AuctionDataEntities1">
+    <EntitySetMapping Name="BatDatas">
+      <EntityTypeMapping TypeName="AuctionDataModel.BatData">
+        <MappingFragment StoreEntitySet="BatData">
+          <ScalarProperty Name="ProId" ColumnName="ProId" />
+          <ScalarProperty Name="CustID" ColumnName="CustID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="AuctionDataModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustProducts">
+      <EntityTypeMapping TypeName="AuctionDataModel.CustProduct">
+        <MappingFragment StoreEntitySet="CustProduct">
+          <ScalarProperty Name="U_id" ColumnName="U_id" />
+          <ScalarProperty Name="Video" ColumnName="Video" />
+          <ScalarProperty Name="Image4" ColumnName="Image4" />
+          <ScalarProperty Name="Image3" ColumnName="Image3" />
+          <ScalarProperty Name="Image2" ColumnName="Image2" />
+          <ScalarProperty Name="Image1" ColumnName="Image1" />
+          <ScalarProperty Name="Approvel" ColumnName="Approvel" />
+          <ScalarProperty Name="End_time" ColumnName="End_time" />
+          <ScalarProperty Name="Start_time" ColumnName="Start_time" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Pname_Id" ColumnName="Pname_Id" />
+          <ScalarProperty Name="C_id" ColumnName="C_id" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProNames">
+      <EntityTypeMapping TypeName="AuctionDataModel.ProName">
+        <MappingFragment StoreEntitySet="ProName">
+          <ScalarProperty Name="C_id" ColumnName="C_id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Registrations">
+      <EntityTypeMapping TypeName="AuctionDataModel.Registration">
+        <MappingFragment StoreEntitySet="Registration">
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="First_Name" ColumnName="First Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Order_01">
+      <EntityTypeMapping TypeName="AuctionDataModel.Order_01">
+        <MappingFragment StoreEntitySet="Order_01">
+          <ScalarProperty Name="Approve" ColumnName="Approve" />
+          <ScalarProperty Name="Pro_id" ColumnName="Pro_id" />
+          <ScalarProperty Name="Bid_id" ColumnName="Bid_id" />
+          <ScalarProperty Name="U_id" ColumnName="U_id" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

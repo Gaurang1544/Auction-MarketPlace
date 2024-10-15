@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Auction.Models.CustProduct>
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .time-main {
+            width: 100%;
+            background: #4cff00;
+            padding: 10px;
+        }
+        .box-1{
+            display:flex;
+            width:100%;
+        }
+        .settime {
+            width: 22.2%;
+            margin: 20px 1.0%;
+            text-align: left;
+            display: inline-block;
+            vertical-align: top;
+            background: #ffffff;
+            border-radius: 1px;
+            box-sizing: border-box;
+            height: 400px;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="time-main">
+        <div class="box-1">
+            @foreach (var item in Model)
+            {
+                <div class="settime">
+                    @using (Html.BeginForm("AddTime", "Home", FormMethod.Post))
+                    {
+                        if (Convert.ToInt32(Session["UserId"]) == item.U_id)
+                        {
+                            <img src="@Url.Content("~/ProductImage/" + item.Image1)" class="D-Image" height="50px" />
+                            <input type="datetime-local" name="startdate" />
+                            <input type="datetime-local" name="enddate" />
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <input type="submit" />
+                        }
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

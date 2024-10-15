@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Auction.Models.Order_01>
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        .container1 {
+            max-width: 1600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .purchase-history {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .table-image {
+            max-width: 50px;
+            border-radius: 5px;
+        }
+
+        .action-button {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block; /* Ensures the link behaves like a button */
+            transition: background-color 0.3s;
+        }
+
+            .action-button:hover {
+                background-color: #0056b3;
+            }
+        header {
+            color: black;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Purchase History</h1>
+    </header>
+
+    <div class="container1">
+
+        <section class="purchase-history">
+            <h2>Your Purchased Products</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Image</th>
+                        <th>Product Title</th>
+                        <th>Price</th>
+                        <th>Date Purchased</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Registration.Id == Convert.ToInt32(Session["UserId"]) && item.Approve == "Accepted")
+                        {
+                            <tr>
+                                <td><img src="@Url.Content("~/ProductImage/" + item.CustProduct.Image1)" class="table-image" /></td>
+                                <td>@item.CustProduct.Name</td>
+                                <td>@item.price</td>
+                                <td>@item.date.Value.ToString("dd-MM-yyyy")</td>
+                                <td>
+                                    <a href="@Url.Action("Details", "AdminProducts", new { id = item.CustProduct.Id })" class="action-button">View Details</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>

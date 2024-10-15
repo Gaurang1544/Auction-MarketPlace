@@ -1,0 +1,154 @@
+﻿@model Auction.Models.Registration
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Login.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+        }
+
+        .edit-header {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 4px solid #007bff;
+            text-align: center;
+        }
+
+        .edit-main1 {
+            width: 100%;
+            max-width: 950px; /* Set a max width for larger screens */
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .control-label1 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .s1 {
+            border: none;
+            outline: none;
+            margin: 0px auto;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .s2 {
+            width: 100%; /* Make the button full width */
+            border: none;
+            outline: none;
+            padding: 5px;
+            border-radius: 3px;
+            font-size:20px;
+        }
+
+        .s3 {
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+            margin-bottom: 5px;
+        }
+
+        .horizontal-form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            flex: 1 1 calc(50% - 20px); /* Adjust width and margin */
+            margin-right: 10px;
+        }
+
+            .form-group:last-child {
+                margin-right: 0; /* Remove margin for the last item */
+            }
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm("Create", "Registrations", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <h1 class="edit-header">New Registration</h1>
+        <div class="edit-main1">
+            <div class="horizontal-form">
+                <div class="form-group">
+                    @Html.Label("First Name", htmlAttributes: new { @class = "control-label1" })
+                    @Html.EditorFor(model => model.First_Name, new { htmlAttributes = new { @class = "form-control s3", placeholder = "Enter First Name", tabindex = "1", Required = "required" } })
+                    @Html.ValidationMessageFor(model => model.First_Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Last Name", htmlAttributes: new { @class = "control-label1" })
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control s3", placeholder = "Enter Last Name", tabindex = "2", Required = "required" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Mobile", htmlAttributes: new { @class = "control-label1" })
+                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control s3", placeholder = "Enter Phone Number", maxlength = 10, tabindex = "3", Required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Email", htmlAttributes: new { @class = "control-label1" })
+                    @Html.EditorFor(model => model.Email, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control s3",
+                            placeholder = "abc@gmail.com",
+                            tabindex = "4",
+                            required = "required",
+                            type = "email",
+                            pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                            title = "Please enter a valid email address."
+                        }
+                    })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.Label("Address", htmlAttributes: new { @class = "control-label1" })
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control s3", placeholder = "Enter Address", tabindex = "5", Required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Password", htmlAttributes: new { @class = "control-label1" })
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control s3", placeholder = "**********", tabindex = "6", type = "password", Required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Confirm Password", htmlAttributes: new { @class = "control-label1" })
+                    @Html.Editor("ConfirmPassword", new { htmlAttributes = new { @class = "form-control s3", placeholder = "**********", tabindex = "7", type = "password", required = "required" } })
+                    @Html.ValidationMessage("ConfirmPassword", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Change Profile Image", htmlAttributes: new { @class = "control-label1" })
+                    <div>
+                        @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control s3", style = "display:none" } })
+                        <input type="file" name="image1" class="form-control s1" tabindex="8" />
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center">
+                <button type="submit" class="btn-primary s2" tabindex="9">Register Now</button>
+            </div>
+        </div>
+    }
+</body>
+</html>

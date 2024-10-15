@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\sem7\\Auction\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|d:\\sem7\\auction\\auction\\views\\home\\productspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|solutionrelative:auction\\views\\home\\productspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|d:\\sem7\\auction\\auction\\views\\custproducts\\productdis.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|solutionrelative:auction\\views\\custproducts\\productdis.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|d:\\sem7\\auction\\auction\\views\\custproducts\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|solutionrelative:auction\\views\\custproducts\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|d:\\sem7\\auction\\auction\\controllers\\registrationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|solutionrelative:auction\\controllers\\registrationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|d:\\sem7\\auction\\auction\\views\\shared\\_layout1.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|solutionrelative:auction\\views\\shared\\_layout1.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|d:\\sem7\\auction\\auction\\views\\registrations\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F098A873-118D-4AE8-9A68-CD5280565600}|Auction\\Auction.csproj|solutionrelative:auction\\views\\registrations\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductsPartial.cshtml",
+              "DocumentMoniker": "D:\\sem7\\Auction\\Auction\\Views\\Home\\ProductsPartial.cshtml",
+              "RelativeDocumentMoniker": "Auction\\Views\\Home\\ProductsPartial.cshtml",
+              "ToolTip": "D:\\sem7\\Auction\\Auction\\Views\\Home\\ProductsPartial.cshtml",
+              "RelativeToolTip": "Auction\\Views\\Home\\ProductsPartial.cshtml",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAACAAAABOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-11T11:10:45.683Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\sem7\\Auction\\Auction\\Views\\CustProducts\\Index.cshtml",
+              "RelativeDocumentMoniker": "Auction\\Views\\CustProducts\\Index.cshtml",
+              "ToolTip": "D:\\sem7\\Auction\\Auction\\Views\\CustProducts\\Index.cshtml",
+              "RelativeToolTip": "Auction\\Views\\CustProducts\\Index.cshtml",
+              "ViewState": "AQIAADMAAAAAAAAAAAAAAEsAAABQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-11T11:09:41.044Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductDis.cshtml",
+              "DocumentMoniker": "D:\\sem7\\Auction\\Auction\\Views\\CustProducts\\ProductDis.cshtml",
+              "RelativeDocumentMoniker": "Auction\\Views\\CustProducts\\ProductDis.cshtml",
+              "ToolTip": "D:\\sem7\\Auction\\Auction\\Views\\CustProducts\\ProductDis.cshtml",
+              "RelativeToolTip": "Auction\\Views\\CustProducts\\ProductDis.cshtml",
+              "ViewState": "AQIAAEEBAAAAAAAAAAAAAE8BAADsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-11T11:05:00.152Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RegistrationsController.cs",
+              "DocumentMoniker": "D:\\sem7\\Auction\\Auction\\Controllers\\RegistrationsController.cs",
+              "RelativeDocumentMoniker": "Auction\\Controllers\\RegistrationsController.cs",
+              "ToolTip": "D:\\sem7\\Auction\\Auction\\Controllers\\RegistrationsController.cs",
+              "RelativeToolTip": "Auction\\Controllers\\RegistrationsController.cs",
+              "ViewState": "AQIAADUAAAAAAAAAAAAwwEsAAABfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-11T10:54:38.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\sem7\\Auction\\Auction\\Views\\Registrations\\Create.cshtml",
+              "RelativeDocumentMoniker": "Auction\\Views\\Registrations\\Create.cshtml",
+              "ToolTip": "D:\\sem7\\Auction\\Auction\\Views\\Registrations\\Create.cshtml",
+              "RelativeToolTip": "Auction\\Views\\Registrations\\Create.cshtml",
+              "ViewState": "AQIAAHkAAAAAAAAAAAAowJQAAABWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-11T10:54:32.907Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "_Layout1.cshtml",
+              "DocumentMoniker": "D:\\sem7\\Auction\\Auction\\Views\\Shared\\_Layout1.cshtml",
+              "RelativeDocumentMoniker": "Auction\\Views\\Shared\\_Layout1.cshtml",
+              "ToolTip": "D:\\sem7\\Auction\\Auction\\Views\\Shared\\_Layout1.cshtml",
+              "RelativeToolTip": "Auction\\Views\\Shared\\_Layout1.cshtml",
+              "ViewState": "AQIAALUAAAAAAAAAAAAswMoAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-11T10:22:19.022Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+﻿@model IEnumerable<Auction.Models.Category>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Category and Subcategory</title>
+    <style>
+        .body1 {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+       
+       
+        .Add-cat {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+            .Add-cat:hover {
+                background-color: #218838;
+            }
+    </style>
+</head>
+<body>
+    <div id="toast" style="display:none; position: fixed; top: 20px; right: 20px; background-color: #28a745; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+        Category added successfully!
+    </div>
+    <div class="body1">
+        <div class="form-container">
+            @using (Html.BeginForm("AddCategory", "CustProducts", FormMethod.Post))
+            {
+                <h2>Add Category and Subcategory</h2>
+
+                <label for="categoryType">Select Category Type:</label>
+                <select id="categoryType" name="categoryType" required>
+                    <option value="">--Select an Option--</option>
+                    <option value="existing">Existing Category</option>
+                    <option value="new">New Category</option>
+                </select>
+
+                <!-- Existing Category Selection -->
+                <div id="existingCategoryContainer" style="display: none;">
+                    <label for="existingCategory">Select Existing Category:</label>
+                    @Html.DropDownList("existingCategory", new SelectList(Model, "Id", "Name"), "--Select Category--", new { @id = "existingCategory" })
+                </div>
+
+                <!-- New Category Name -->
+                <div id="newCategoryContainer" style="display: none;">
+                    <label for="newCategory">New Category Name:</label>
+                    @Html.TextBox("newCategory", null, new { @id = "newCategory", @placeholder = "Enter new category name" })
+                </div>
+
+                <!-- Subcategory Count and Input Fields -->
+                <label for="subcategory">Number of New Subcategories:</label>
+                @Html.TextBox("subcategoryCount", null, new { @id = "subcategory", @placeholder = "Enter number of subcategories", @type = "number", @min = "1", @required = "required" })
+
+                <div id="subcategoryFields"></div>
+                <input type="submit" value="Add" class="Add-cat" />
+            }
+        </div>
+    </div>
+
+    <script>
+        // Select elements
+        const categoryTypeSelect = document.getElementById('categoryType');
+        const existingCategoryContainer = document.getElementById('existingCategoryContainer');
+        const newCategoryContainer = document.getElementById('newCategoryContainer');
+        const subcategoryInput = document.getElementById('subcategory');
+        const subcategoryFieldsDiv = document.getElementById('subcategoryFields');
+
+        // Show and hide containers based on category type selection
+        categoryTypeSelect.addEventListener('change', function () {
+            const value = this.value;
+            existingCategoryContainer.style.display = (value === 'existing') ? 'block' : 'none';
+            newCategoryContainer.style.display = (value === 'new') ? 'block' : 'none';
+        });
+
+        // Dynamically generate subcategory input fields
+        subcategoryInput.addEventListener('input', function () {
+            const count = parseInt(this.value, 10);
+            subcategoryFieldsDiv.innerHTML = '';
+
+            for (let i = 1; i <= count; i++) {
+                const label = document.createElement('label');
+                label.textContent = `New Subcategory ${i}:`;
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = `subcategory_${i}`;
+                input.placeholder = `Enter new subcategory ${i} name`;
+                input.required = true;
+
+                subcategoryFieldsDiv.appendChild(label);
+                subcategoryFieldsDiv.appendChild(input);
+            }
+        });
+
+         function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000); // Hide after 3 seconds
+        }
+
+        // Check if there's a success message
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                showToast('@TempData["SuccessMessage"]');
+            </text>
+        }
+    </script>
+    <div class="subcat">
+        <div class="sucat-1">
+            <table id="customers">
+                <tr>
+                    <th>No.</th>
+                    <th>Category</th>
+                    <th></th>
+                </tr>
+                @{ int index1 = 1;}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@index1</td>
+                        <td>@item.Name</td>
+                        <td>
+                            @Html.ActionLink("Delete", "DeleteCategory", "CustProducts", new { id = item.Id },
+                            new { @onclick = "return confirm('Are you sure you want to delete this category? This will also delete all its subcategories.');" })
+                        </td>
+                    </tr>
+                    index1++;
+                }
+            </table>
+        </div>
+        <div class="sucat-2">
+            <table id="customers">
+                <tr>
+                    <th>No.</th>
+                    <th>Category</th>
+                    <th>Sub Category</th>
+                    <th></th>
+                </tr>
+                @{ int index2 = 1;}
+                @foreach (var item in ViewBag.sub)
+                {
+                    <tr>
+                        <td>@index2</td>
+                        <td>@item.Name</td>
+                        <td>@item.Category.Name</td>
+                        <td>
+                            @Html.ActionLink("Delete", "DeleteSubCategory", "CustProducts", new { id = item.Id },
+                            new { @onclick = "return confirm('Are you sure you want to delete this Subcategory?');" })
+                        </td>
+                    </tr>
+                    index2++;
+                }
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+<style>
+    #customers {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #customers td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+        background-color: #ddd;
+    }
+
+    #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04AA6D;
+        color: white;
+    }
+    .subcat{
+        width:100%;
+        display:flex;
+        margin:100px auto;
+
+    }
+    .sucat-1, .sucat-2{    
+        margin:10px auto;
+    }
+</style>

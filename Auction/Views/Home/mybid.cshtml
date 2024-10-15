@@ -1,0 +1,136 @@
+﻿@model IEnumerable<Auction.Models.BatData>
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        header {
+            color: black;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+        p{
+            font-size:1.6rem;
+            color:black;
+        }
+
+        .item-list {
+            max-width: 1800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            height: 400px; /* Fixed height */
+            transition: transform 0.3s;
+        }
+
+            .item:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            }
+
+        .image-container {
+            width: 100%; /* Full width */
+            height: 250px; /* Fixed height for the image container */
+            overflow: hidden; /* Hide overflow */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .item img {
+            width: auto; /* Maintain aspect ratio */
+            height: 100%; /* Fill container height */
+            max-width: 100%; /* Prevent overflow */
+        }
+
+        .item-content {
+            padding: 15px;
+        }
+
+        .item h2 {
+            margin: 10px 0;
+            font-size: 1.5em;
+        }
+
+        .item p {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .detail-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: auto; /* Align button at bottom */
+            text-align: center;
+            width: 90%; /* Full width for button */
+        }
+
+            .detail-button:hover {
+                background-color: #0056b3;
+            }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Participation Auction</h1>
+        <p>Bid on exciting items to support our cause!</p>
+    </header>
+    <main>
+        <section class="item-list">
+            @foreach (var group in Model
+            .Where(x => x.CustID == Convert.ToInt32(Session["UserId"]) && x.CustProduct.End_time > DateTime.Now)
+              .GroupBy(x => x.CustProduct.Id))
+            {
+                // Get the first item from the group to display
+                var item = group.First();
+
+                <div class="item">
+                    <div class="image-container">
+                        <img src="@Url.Content("~/ProductImage/" + item.CustProduct.Image1)" alt="@item.CustProduct.Name" />
+                    </div>
+                    <div class="item-content">
+                        <h2>@item.CustProduct.Name</h2>
+                        <p>Starting Bid: $@item.CustProduct.Price</p>
+                        <p>Current Bid: $@item.Price</p>
+                        <a class="detail-button" href="@Url.Action("Details", "AdminProducts", new { id = item.CustProduct.Id })">Bid Now</a>
+                    </div>
+                </div>
+            }   
+        </section>
+    </main>
+</body>
+</html>

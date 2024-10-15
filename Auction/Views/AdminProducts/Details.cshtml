@@ -1,0 +1,591 @@
+﻿@model Auction.Models.CustProduct
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="60">
+    <title>Profile Card</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Roboto',sans-serif;
+            font-size: 17px;
+        }
+
+        .D-Main {
+            width: 98%;
+            margin: 50px auto;
+            overflow: hidden;
+            border-radius: 8px;
+            display: flex;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .D-Card1 {
+            width: 50%;
+            margin: 10px;
+            padding: 10px 20px;
+            border-right: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .D-Card2 {
+            width: 50%;
+            margin: 10px;
+            padding: 10px;
+            text-align: justify;
+        }
+
+        .D-Sub-Card1 {
+            width: 100%;
+            padding: 2px;
+            margin: 5px auto;
+            max-height: 600px;
+            overflow: hidden;
+        }
+
+        .D-Sub-Card2 {
+            width: 100%;
+            background: #ffffff;
+            padding: 10px;
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        .D-Image {
+            width: 100%;
+            height: auto;
+        }
+
+
+        .Description {
+            overflow: auto;
+            white-space: nowrap;
+            padding: 10px;
+            display: flex;
+            background: #dcd2e5;
+        }
+
+        .img-scr {
+            margin: 5px;
+            box-shadow: 2px 3px 3px rgba(0,0,0,0.4);
+        }
+
+        #mainVideo {
+            display: none;
+        }
+
+        .Image-1 {
+            height: auto;
+            max-width: 100%;
+            width: 70%;
+            margin: 5px auto;
+        }
+
+        .datetime {
+            float: right;
+            width: 200px;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
+            text-align: center;
+            padding: 5px
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        h4 {
+            text-align: left;
+            font-weight: bold;
+            font-family: "Open Sans",sans-serif;
+        }
+
+        .btn-Old-bid {
+            width: 200px;
+            height: 28px;
+            background: #ffffff;
+            border: none;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+        }
+
+        .btn-bid-Submit {
+            width: 100%;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+            margin: 20px 0px;
+            height: 35px;
+            display: flex;
+        }
+
+            .btn-bid-Submit .SUBMIT-Input-Btn {
+                height: 100%;
+                width: 70%;
+                border: none;
+                padding: 0px 10px;
+                outline: none;
+            }
+
+        .Submit-Data {
+            width: 30%;
+            border: none;
+            outline: none;
+            background: #2695ff;
+            color: #ffffff;
+        }
+
+        .Shipping_table {
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        .features {
+            list-style-type: none;
+            padding: 0;
+            color: #555;
+        }
+
+            .features li {
+                margin: 10px 0;
+                font-size: 0.9em;
+            }
+
+            .features i {
+                color: #2695ff;
+                margin-right: 10px;
+            }
+        /*for popup menu*/
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding: 100px 300px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 100%;
+        }
+
+        /* The Close Button */
+        .input_field span {
+            color: #000;
+        }
+
+        .close1 {
+            color: #000;
+            float: right;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+            .close1:hover,
+            .close1:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        /*for design the popup table*/
+        .bid-data-table {
+            width: 100%;
+            border-collapse: collapse; /* Merge borders */
+            margin: 20px 0; /* Margin for spacing */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+
+            .bid-data-table th, .bid-data-table td {
+                padding: 12px; /* Padding for cells */
+                text-align: left; /* Left-align text */
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Bottom border for rows */
+            }
+
+            .bid-data-table th {
+                background-color: #f8f8f8; /* Light background for header */
+                color: #333; /* Dark text color */
+                font-weight: bold; /* Bold header text */
+            }
+
+            .bid-data-table tr:hover {
+                background-color: #f1f1f1; /* Highlight row on hover */
+            }
+
+            .bid-data-table tr:last-child td {
+                border-bottom: none; /* Remove bottom border from the last row */
+            }
+    </style>
+    <script>
+        function updateMainMedia(clickedElement) {
+            if (clickedElement.tagName.toLowerCase() === 'img') {
+                // If clicked element is an image
+                var newSrc = clickedElement.src;
+                document.getElementById('mainImage').src = newSrc;
+                document.getElementById('mainImage').style.display = 'block'; // Show the image
+                document.getElementById('mainVideo').style.display = 'none';  // Hide the video
+            }
+            else if (clickedElement.tagName.toLowerCase() === 'video') {
+                var videoSrc = clickedElement.querySelector('source').src;
+                var mainVideo = document.getElementById('mainVideo');
+                mainVideo.querySelector('source').src = videoSrc;
+                mainVideo.load();  // Reload the video with the new source
+                mainVideo.style.display = 'block'; // Show the video
+                document.getElementById('mainImage').style.display = 'none';  // Hide the image
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="D-Main">
+        <div class="D-Card1">
+            <div class="D-Sub-Card1">
+                <img id="mainImage" src="@Url.Content("~/ProductImage/" + Model.Image1)" class="Image-1" />
+                <video id="mainVideo" style="width:100%;height:auto" controls>
+                    <source src="@Url.Content(Model.Video)" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="D-Sub-Card2">
+                <div class="Description" style="padding:10px;">
+                    <img src="@Url.Content("~/ProductImage/" + Model.Image1)" height="160px" width="240px" class="img-scr" onclick="updateMainMedia(this)" />
+                    <img src="@Url.Content("~/ProductImage/" + Model.Image2)" height="160px" width="240px" class="img-scr" onclick="updateMainMedia(this)" />
+                    <img src="@Url.Content("~/ProductImage/" + Model.Image3)" height="160px" width="240px" class="img-scr" onclick="updateMainMedia(this)" />
+                    <img src="@Url.Content("~/ProductImage/" + Model.Image4)" height="160px" width="240px" class="img-scr" onclick="updateMainMedia(this)" />
+                    <video class="descriptionVideo" style="width:240px;height:160px" controls onclick="updateMainMedia(this)">
+                        <source src="@Url.Content(Model.Video)" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+        <script>
+                 function startCountdown(elementId, days, hours, minutes, seconds) {
+                     var countdownElement = document.getElementById(elementId);
+                     var totalSeconds = days * 86400 + hours * 3600 + minutes * 60 + seconds;
+
+                     var interval = setInterval(function () {
+                         if (totalSeconds <= 0) {
+                             clearInterval(interval);
+                             countdownElement.innerHTML = "Auction Ended";
+                             return;
+                         }
+
+                         totalSeconds--;
+
+                         var d = Math.floor(totalSeconds / 86400);
+                         var h = Math.floor((totalSeconds % 86400) / 3600);
+                         var m = Math.floor((totalSeconds % 3600) / 60);
+                         var s = totalSeconds % 60;
+
+                         countdownElement.innerHTML = `${d}d : ${h}h : ${m}m : ${s}s <br>Time Left`;
+                     }, 1000);
+                 }
+        </script>
+        <div class="D-Card2">
+            <div class="datetime">
+                <div>
+                    <b id="countdown" style="font-size:20px;text-align:center;">
+                        @{var endTime = Model.End_time;
+                            if (endTime.HasValue)
+                            {
+                                TimeSpan timeRemaining = endTime.Value - DateTime.Now;
+
+                                int days = timeRemaining < TimeSpan.Zero ? 0 : timeRemaining.Days;
+                                int hours = timeRemaining < TimeSpan.Zero ? 0 : timeRemaining.Hours;
+                                int minutes = timeRemaining < TimeSpan.Zero ? 0 : timeRemaining.Minutes;
+                                int seconds = timeRemaining < TimeSpan.Zero ? 0 : timeRemaining.Seconds;
+
+                                <div>
+                                    <p id="countdown-@Model.Id" style="font-size:20px;text-align:center;">
+                                        @string.Format("{0:D2} : {1:D2} : {2:D2} : {3:D2}", days, hours, minutes, seconds)
+                                    </p>
+                                    <script>
+                                        startCountdown("countdown-@Model.Id", @days, @hours, @minutes, @seconds);
+                                    </script>
+                                </div>
+                            }
+                        }
+                    </b>
+                </div>
+            </div>
+            <h3>@Model.Name</h3>
+            <h3 style="color:#fa0000">&#8377;@Model.Price</h3><br />
+            <b>Current BID:</b><br />
+            @{
+                var totalBets = ViewBag.totalbet as IEnumerable<dynamic>;
+                int count = totalBets?.Count() ?? 0;
+                decimal maxPrice = (totalBets != null && totalBets.Any())
+                  ? totalBets.Max(bid => bid.Price) : 0;
+            }
+            @if (maxPrice > 0)
+            {
+                <b style="font-size:20px;margin-right:30px;">&#8377; @maxPrice</b>
+            }
+            else
+            {
+                <b style="font-size:20px;margin-right:30px;">&#8377; @Model.Price</b>
+            }
+
+            <input type="button" value="@count bids" class="btn-Old-bid" id="showbtn" />
+            <div id="biddata1" class="modal">
+                <div class="modal-content">
+                    <span class="close1">&times;</span>
+                    <h2>Bet Data</h2><br />
+                    <table class="bid-data-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Date</th>
+                                <th>Bid</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        @{int no1 = 1;}
+                        <tbody>
+                            @foreach (var bid in ViewBag.totalbet)
+                            {
+                                <tr>
+                                    <td>@no1</td>
+                                    <td>@bid.Date</td>
+                                    <td>&#8377; @bid.Price</td> 
+                                    <td>
+                                        @if (bid.CustID == Convert.ToInt32(Session["UserId"]))
+                                        {
+                                            <p>@bid.Registration.First_Name @bid.Registration.LastName</p>
+                                        }
+                                        else
+                                        {
+                                            <p>Unknown User--</p>
+                                        }
+                                    </td>
+                                </tr>
+                                no1++;
+                             }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <script>
+                var modal1 = document.getElementById("biddata1");
+                var btn2 = document.getElementById("showbtn");
+                var closeBtn1 = document.getElementsByClassName("close1")[0];
+
+                btn2.onclick = function () {
+                    modal1.style.display = "block";
+                }
+                closeBtn1.onclick = function () {
+                    modal1.style.display = "none";
+                }
+            </script>
+            @*this code is use for the display the button*@
+            @{
+                int userid = Convert.ToInt32(Session["UserId"]);
+            }
+            @using (Html.BeginForm("Create", "BatDatas", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                if (Model.End_time > DateTime.Now)
+                {
+                    <div class="btn-bid-Submit">
+                        <input type="hidden" name="proid" value="@Model.Id" />
+
+                        @if (maxPrice > 0)
+                        {
+                            <input type="number" min="@(maxPrice + 1)" id="bidprice" placeholder="Enter Your Bid" name="bidprice" class="SUBMIT-Input-Btn" required />
+                        }
+                        else
+                        {
+                            <input type="number" min="@Model.Price" id="bidprice" placeholder="Enter Your Bid" name="bidprice" class="SUBMIT-Input-Btn" required />
+                        }
+                        <button type="submit" class="Submit-Data">Add Bid</button>
+
+                    </div>
+                }
+            }
+            <br />
+            <p class="description">
+                @Model.Description
+            </p>
+            <ul class="features">
+                <li><i class="fas fa-check-circle"></i> Type: @Model.Category.Name</li>
+                <li><i class="fas fa-check-circle"></i> Available: in stock</li>
+                <li><i class="fas fa-check-circle"></i> Category: @Model.ProName.Name </li>
+                <li><i class="fas fa-check-circle"></i> Shipping Area: All over the world</li>
+                <li><i class="fas fa-check-circle"></i> Shipping Fee: Free</li>
+            </ul>
+            @if (Model.End_time < DateTime.Now)
+            {
+                if (Model.BatDatas != null && Model.BatDatas.Any())
+                {
+                    var user = Model.BatDatas?.First();
+                    <br />
+                    <table class="Shipping_table">
+                        <tr style=" background: #2695ff; height: 32px; text-align: center;">
+                            <th colspan="2" style="color:#fff;padding:0px 5px">Winner Detail</th>
+                        </tr>
+                        <tr>
+                            <td class="title-S">User Name</td>
+                            <td>@user.Registration.First_Name @user.Registration.LastName</td>
+                        </tr>
+                        <tr>
+                            <td class="title-S">Contact Number</td>
+                            <td>@user.Registration.Mobile</td>
+                        </tr>
+                        <tr>
+                            <td class="title-S">Address</td>
+                            <td>
+                                @user.Registration.Address
+                            </td>
+                        </tr>
+                    </table>
+                }
+                else
+                {
+                    <br />
+                    <p style="color:#fa0000;font-size:20px;font-weight:bold;">Product have No Sell--</p>
+                }
+            }
+            <br />
+
+            <br />
+            <table class="Shipping_table">
+                <tr style="background: #2695ff; height: 32px; text-align: center; ">
+                    <th colspan="2" style="color:#fff;padding:0px 5px">Seller Details</th>
+                </tr>
+                <tr>
+                    <td class="title-S">Seller Name</td>
+                    <td>@Model.Registration.First_Name @Model.Registration.LastName </td>
+                </tr>
+                <tr>
+                    <td class="title-S">Address</td>
+                    <td>@Model.Registration.Address</td>
+                </tr>
+                <tr>
+                    <td class="title-S">Contact No </td>
+                    <td>
+                        @Model.Registration.Mobile
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="Related-product">
+        <h1 style="text-align:center">Related Products</h1>
+        <section class="item-list">
+            @foreach (var item in ViewBag.product)
+            {
+                if (item.End_time > DateTime.Now)
+                {
+                    <div class="item">
+                        <div class="image-container">
+                            <img src="@Url.Content("~/ProductImage/" + item.Image1)" height="100" />
+                        </div>
+                        <div class="item-content">
+                            <h2>@item.Name</h2>
+                            <p>Starting Bid: $@item.Price</p>
+                            <a class="detail-button" href="@Url.Action("Details", "AdminProducts", new { id = item.Id })">View Details</a>
+                        </div>
+                    </div>
+                }
+            }
+        </section>
+    </div>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    .item-list {
+        max-width: 1800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 40px;
+    }
+
+    .item {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch; /* Make sure items stretch to full width */
+        text-align: center;
+        height: 400px; 
+        transition: transform 0.3s;
+    }
+
+        .item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+    .image-container {
+        width: 100%; /* Full width */
+        height: 250px; /* Fixed height for the image container */
+        overflow: hidden; /* Hide overflow */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .item img {
+        width: auto; /* Maintain aspect ratio */
+        height: 100%; /* Fill container height */
+        max-width: 100%; /* Prevent overflow */
+    }
+
+    .item-content {
+        padding: 15px;
+        flex-grow: 1; /* Allow content to grow */
+    }
+
+    .item h2 {
+        margin: 10px 0;
+        font-size: 1.5em;
+    }
+
+    .item p {
+        margin: 5px 0;
+        font-size: 1em;
+        color: #333;
+    }
+
+    .detail-button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        margin-top: auto; /* Align button at bottom */
+        width: 100%; /* Make button full width */
+    }
+
+        .detail-button:hover {
+            background-color: #0056b3;
+        }
+
+</style>

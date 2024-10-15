@@ -1,0 +1,185 @@
+﻿@model Auction.Models.Registration
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@if (Session["UserId"] == null)
+{
+    <i class='fas fa-user' onclick="togglePopup()" id="profile"></i>
+}
+else
+{
+    if (Model.Image != null)
+    {
+        <img src="@Url.Content("~/Images/" + Model.Image)" class="profile-1" onclick="togglePopup()" id="profile" />
+    }
+    else
+    {
+        <img src="~/Images/profile.png" id="profile"  class="profile-1" onclick="togglePopup()"/>
+    }
+}
+<div class="profile-popup" id="profilePopup">
+    <div class="profile-header">
+        @if (Model.Image != null)
+        {
+            <img src="@Url.Content("~/Images/" + Model.Image)" class="profile-image" />
+        }
+        else
+        {
+            <img src="~/Images/profile.png" id="profile-image" />
+        }
+    </div>
+    <div class="profile-body">
+        <h2 class="profile-name">@Model.First_Name</h2>
+        <p class="profile-email">@Model.Email</p>
+        <div style="margin: 5px 0;">
+            <a href="https://dribbble.com/"><i class="fa fa-dribbble"></i></a>
+            <a href="https://x.com/?lang=en"><i class="fa fa-twitter"></i></a>
+            <a href="https://in.linkedin.com/"><i class="fa fa-linkedin"></i></a>
+            <a href="https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2F"><i class="fa fa-facebook"></i></a>
+        </div>
+        <div class="btn1">
+            <a href="@Url.Action("Edit", "Registrations", new { id = Session["UserId"] })">
+                <b><i class="fa fa-edit"></i>Edit Profile</b>
+            </a>
+        </div>
+        <div class="btn1">
+            @using (Html.BeginForm("Logout", "Home", FormMethod.Post))
+            {
+                <b class="logout1"><i class="fa fa-sign-out"></i><input type="submit" value="Sign Out" class="logout" /></b>
+            }
+        </div>
+    </div>
+</div>
+<style>
+    .logout {
+        outline: none;
+        border: none;
+        background: none;
+        height: 30px;
+        color: #ffffff;
+        font-weight: 200;
+    }
+
+        .logout:hover {
+            color: #000;
+        }
+
+    .profile-container {
+        display: flex;
+        position: relative;
+    }
+
+    .profile-icon {
+        font-size: 2.0rem;
+        cursor: pointer;
+        color: #007bff;
+    }
+
+    .profile-popup {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 280px;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        margin: 0;
+        padding-right: 15px;
+    }
+
+        .profile-popup::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            border-width: 0 10px 10px 10px;
+            border-style: solid;
+            border-color: transparent transparent #fff transparent;
+        }
+
+    .profile-header {
+        text-align: center;
+        padding: 20px 0;
+        background: linear-gradient(to right, #007bff, #00bfff);
+        color: #000;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .profile-image {
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        border: 2px solid #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #profile-image {
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        border: 2px solid #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-name {
+        margin: 10px 0 5px;
+        font-size: 2.3rem;
+        font-weight: bold;
+        color: #000;
+    }
+
+    .profile-email {
+        margin: 5px 0;
+        font-size: 1.5rem;
+        color: #000;
+    }
+
+    .profile-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+        .profile-body i {
+            margin-right: 8px;
+        }
+
+    .btn1 {
+        margin: 10px;
+        width: 90%;
+        background: #007bff;
+        text-align: center;
+        border-radius: 3px;
+    }
+
+        .btn1 a b {
+            font-size: 18px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 100;
+        }
+
+            .btn1 a b:hover {
+                color: #000;
+                text-decoration: none !important;
+                border: none;
+            }
+
+    .logout1 {
+        font-size: 18px;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 100;
+    }
+
+    .profile-1 {
+        width: 31px;
+        height: 31px;
+    }
+</style>

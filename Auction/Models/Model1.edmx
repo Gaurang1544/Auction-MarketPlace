@@ -1,0 +1,582 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AuctionDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BatData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Price" Type="int" />
+          <Property Name="Date" Type="varchar" MaxLength="50" />
+          <Property Name="CustID" Type="int" />
+          <Property Name="ProId" Type="int" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="CustProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="150" />
+          <Property Name="Price" Type="int" />
+          <Property Name="C_id" Type="int" />
+          <Property Name="Pname_Id" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="600" />
+          <Property Name="Start_time" Type="datetime" />
+          <Property Name="End_time" Type="datetime" />
+          <Property Name="Approvel" Type="varchar" MaxLength="50" />
+          <Property Name="Image1" Type="varchar(max)" />
+          <Property Name="Image2" Type="varchar(max)" />
+          <Property Name="Image3" Type="varchar(max)" />
+          <Property Name="Image4" Type="varchar(max)" />
+          <Property Name="Video" Type="varchar(max)" />
+          <Property Name="U_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Order_01">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="price" Type="int" />
+          <Property Name="date" Type="datetime" />
+          <Property Name="U_id" Type="int" />
+          <Property Name="Bid_id" Type="int" />
+          <Property Name="Pro_id" Type="int" />
+          <Property Name="Approve" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ProName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+          <Property Name="C_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="First Name" Type="varchar" MaxLength="40" />
+          <Property Name="LastName" Type="varchar" MaxLength="40" />
+          <Property Name="Mobile" Type="varchar" MaxLength="20" />
+          <Property Name="Address" Type="varchar" MaxLength="80" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Type" Type="varchar" MaxLength="50" />
+          <Property Name="Image" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK_BatData_ToTable">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="0..1" />
+          <End Role="BatData" Type="Self.BatData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatData">
+              <PropertyRef Name="CustID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BatData_ToTable_1">
+          <End Role="CustProduct" Type="Self.CustProduct" Multiplicity="0..1" />
+          <End Role="BatData" Type="Self.BatData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatData">
+              <PropertyRef Name="ProId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustProduct_ToTable">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="0..1" />
+          <End Role="CustProduct" Type="Self.CustProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustProduct">
+              <PropertyRef Name="U_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustProduct_ToTable_1">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="CustProduct" Type="Self.CustProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustProduct">
+              <PropertyRef Name="C_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustProduct_ToTable_2">
+          <End Role="ProName" Type="Self.ProName" Multiplicity="0..1" />
+          <End Role="CustProduct" Type="Self.CustProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProName">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustProduct">
+              <PropertyRef Name="Pname_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_01_ToTable">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="0..1" />
+          <End Role="Order_01" Type="Self.Order_01" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order_01">
+              <PropertyRef Name="U_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_01_ToTable_1">
+          <End Role="BatData" Type="Self.BatData" Multiplicity="0..1" />
+          <End Role="Order_01" Type="Self.Order_01" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order_01">
+              <PropertyRef Name="Bid_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_01_ToTable_2">
+          <End Role="CustProduct" Type="Self.CustProduct" Multiplicity="0..1" />
+          <End Role="Order_01" Type="Self.Order_01" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order_01">
+              <PropertyRef Name="Pro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProName_ToTable">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="ProName" Type="Self.ProName" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProName">
+              <PropertyRef Name="C_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AuctionDataModelStoreContainer">
+          <EntitySet Name="BatData" EntityType="Self.BatData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustProduct" EntityType="Self.CustProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_01" EntityType="Self.Order_01" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProName" EntityType="Self.ProName" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BatData_ToTable" Association="Self.FK_BatData_ToTable">
+            <End Role="Registration" EntitySet="Registration" />
+            <End Role="BatData" EntitySet="BatData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BatData_ToTable_1" Association="Self.FK_BatData_ToTable_1">
+            <End Role="CustProduct" EntitySet="CustProduct" />
+            <End Role="BatData" EntitySet="BatData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustProduct_ToTable" Association="Self.FK_CustProduct_ToTable">
+            <End Role="Registration" EntitySet="Registration" />
+            <End Role="CustProduct" EntitySet="CustProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustProduct_ToTable_1" Association="Self.FK_CustProduct_ToTable_1">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="CustProduct" EntitySet="CustProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustProduct_ToTable_2" Association="Self.FK_CustProduct_ToTable_2">
+            <End Role="ProName" EntitySet="ProName" />
+            <End Role="CustProduct" EntitySet="CustProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_01_ToTable" Association="Self.FK_Order_01_ToTable">
+            <End Role="Registration" EntitySet="Registration" />
+            <End Role="Order_01" EntitySet="Order_01" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_01_ToTable_1" Association="Self.FK_Order_01_ToTable_1">
+            <End Role="BatData" EntitySet="BatData" />
+            <End Role="Order_01" EntitySet="Order_01" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_01_ToTable_2" Association="Self.FK_Order_01_ToTable_2">
+            <End Role="CustProduct" EntitySet="CustProduct" />
+            <End Role="Order_01" EntitySet="Order_01" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProName_ToTable" Association="Self.FK_ProName_ToTable">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="ProName" EntitySet="ProName" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AuctionDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AuctionDataEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BatDatas" EntityType="AuctionDataModel.BatData" />
+          <EntitySet Name="Categories" EntityType="AuctionDataModel.Category" />
+          <EntitySet Name="CustProducts" EntityType="AuctionDataModel.CustProduct" />
+          <EntitySet Name="ProNames" EntityType="AuctionDataModel.ProName" />
+          <EntitySet Name="Registrations" EntityType="AuctionDataModel.Registration" />
+          <AssociationSet Name="FK_BatData_ToTable" Association="AuctionDataModel.FK_BatData_ToTable">
+            <End Role="Registration" EntitySet="Registrations" />
+            <End Role="BatData" EntitySet="BatDatas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BatData_ToTable_1" Association="AuctionDataModel.FK_BatData_ToTable_1">
+            <End Role="CustProduct" EntitySet="CustProducts" />
+            <End Role="BatData" EntitySet="BatDatas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustProduct_ToTable_1" Association="AuctionDataModel.FK_CustProduct_ToTable_1">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="CustProduct" EntitySet="CustProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProName_ToTable" Association="AuctionDataModel.FK_ProName_ToTable">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="ProName" EntitySet="ProNames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustProduct_ToTable" Association="AuctionDataModel.FK_CustProduct_ToTable">
+            <End Role="Registration" EntitySet="Registrations" />
+            <End Role="CustProduct" EntitySet="CustProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustProduct_ToTable_2" Association="AuctionDataModel.FK_CustProduct_ToTable_2">
+            <End Role="ProName" EntitySet="ProNames" />
+            <End Role="CustProduct" EntitySet="CustProducts" />
+          </AssociationSet>
+          <EntitySet Name="Order_01" EntityType="AuctionDataModel.Order_01" />
+          <AssociationSet Name="FK_Order_01_ToTable_1" Association="AuctionDataModel.FK_Order_01_ToTable_1">
+            <End Role="BatData" EntitySet="BatDatas" />
+            <End Role="Order_01" EntitySet="Order_01" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_01_ToTable_2" Association="AuctionDataModel.FK_Order_01_ToTable_2">
+            <End Role="CustProduct" EntitySet="CustProducts" />
+            <End Role="Order_01" EntitySet="Order_01" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_01_ToTable" Association="AuctionDataModel.FK_Order_01_ToTable">
+            <End Role="Registration" EntitySet="Registrations" />
+            <End Role="Order_01" EntitySet="Order_01" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="BatData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustID" Type="Int32" />
+          <Property Name="ProId" Type="Int32" />
+          <NavigationProperty Name="Registration" Relationship="AuctionDataModel.FK_BatData_ToTable" FromRole="BatData" ToRole="Registration" />
+          <NavigationProperty Name="CustProduct" Relationship="AuctionDataModel.FK_BatData_ToTable_1" FromRole="BatData" ToRole="CustProduct" />
+          <NavigationProperty Name="Order_01" Relationship="AuctionDataModel.FK_Order_01_ToTable_1" FromRole="BatData" ToRole="Order_01" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CustProducts" Relationship="AuctionDataModel.FK_CustProduct_ToTable_1" FromRole="Category" ToRole="CustProduct" />
+          <NavigationProperty Name="ProNames" Relationship="AuctionDataModel.FK_ProName_ToTable" FromRole="Category" ToRole="ProName" />
+        </EntityType>
+        <EntityType Name="CustProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="C_id" Type="Int32" />
+          <Property Name="Pname_Id" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="600" FixedLength="false" Unicode="false" />
+          <Property Name="Start_time" Type="DateTime" Precision="3" />
+          <Property Name="End_time" Type="DateTime" Precision="3" />
+          <Property Name="Approvel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Image1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Image2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Image3" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Image4" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Video" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="U_id" Type="Int32" />
+          <NavigationProperty Name="BatDatas" Relationship="AuctionDataModel.FK_BatData_ToTable_1" FromRole="CustProduct" ToRole="BatData" />
+          <NavigationProperty Name="Category" Relationship="AuctionDataModel.FK_CustProduct_ToTable_1" FromRole="CustProduct" ToRole="Category" />
+          <NavigationProperty Name="Registration" Relationship="AuctionDataModel.FK_CustProduct_ToTable" FromRole="CustProduct" ToRole="Registration" />
+          <NavigationProperty Name="ProName" Relationship="AuctionDataModel.FK_CustProduct_ToTable_2" FromRole="CustProduct" ToRole="ProName" />
+          <NavigationProperty Name="Order_01" Relationship="AuctionDataModel.FK_Order_01_ToTable_2" FromRole="CustProduct" ToRole="Order_01" />
+        </EntityType>
+        <EntityType Name="ProName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="C_id" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="AuctionDataModel.FK_ProName_ToTable" FromRole="ProName" ToRole="Category" />
+          <NavigationProperty Name="CustProducts" Relationship="AuctionDataModel.FK_CustProduct_ToTable_2" FromRole="ProName" ToRole="CustProduct" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="First_Name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BatDatas" Relationship="AuctionDataModel.FK_BatData_ToTable" FromRole="Registration" ToRole="BatData" />
+          <NavigationProperty Name="CustProducts" Relationship="AuctionDataModel.FK_CustProduct_ToTable" FromRole="Registration" ToRole="CustProduct" />
+          <NavigationProperty Name="Order_01" Relationship="AuctionDataModel.FK_Order_01_ToTable" FromRole="Registration" ToRole="Order_01" />
+        </EntityType>
+        <Association Name="FK_BatData_ToTable">
+          <End Type="AuctionDataModel.Registration" Role="Registration" Multiplicity="0..1" />
+          <End Type="AuctionDataModel.BatData" Role="BatData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatData">
+              <PropertyRef Name="CustID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BatData_ToTable_1">
+          <End Type="AuctionDataModel.CustProduct" Role="CustProduct" Multiplicity="0..1" />
+          <End Type="AuctionDataModel.BatData" Role="BatData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatData">
+              <PropertyRef Name="ProId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustProduct_ToTable_1">
+          <End Type="AuctionDataModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="AuctionDataModel.CustProduct" Role="CustProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustProduct">
+              <PropertyRef Name="C_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProName_ToTable">
+          <End Type="AuctionDataModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="AuctionDataModel.ProName" Role="ProName" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProName">
+              <PropertyRef Name="C_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustProduct_ToTable">
+          <End Type="AuctionDataModel.Registration" Role="Registration" Multiplicity="0..1" />
+          <End Type="AuctionDataModel.CustProduct" Role="CustProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustProduct">
+              <PropertyRef Name="U_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustProduct_ToTable_2">
+          <End Type="AuctionDataModel.ProName" Role="ProName" Multiplicity="0..1" />
+          <End Type="AuctionDataModel.CustProduct" Role="CustProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProName">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustProduct">
+              <PropertyRef Name="Pname_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Order_01">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <Property Name="U_id" Type="Int32" />
+          <Property Name="Bid_id" Type="Int32" />
+          <Property Name="Pro_id" Type="Int32" />
+          <NavigationProperty Name="BatData" Relationship="AuctionDataModel.FK_Order_01_ToTable_1" FromRole="Order_01" ToRole="BatData" />
+          <NavigationProperty Name="CustProduct" Relationship="AuctionDataModel.FK_Order_01_ToTable_2" FromRole="Order_01" ToRole="CustProduct" />
+          <NavigationProperty Name="Registration" Relationship="AuctionDataModel.FK_Order_01_ToTable" FromRole="Order_01" ToRole="Registration" />
+          <Property Name="Approve" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Order_01_ToTable_1">
+          <End Type="AuctionDataModel.BatData" Role="BatData" Multiplicity="0..1" />
+          <End Type="AuctionDataModel.Order_01" Role="Order_01" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order_01">
+              <PropertyRef Name="Bid_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_01_ToTable_2">
+          <End Type="AuctionDataModel.CustProduct" Role="CustProduct" Multiplicity="0..1" />
+          <End Type="AuctionDataModel.Order_01" Role="Order_01" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order_01">
+              <PropertyRef Name="Pro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_01_ToTable">
+          <End Type="AuctionDataModel.Registration" Role="Registration" Multiplicity="0..1" />
+          <End Type="AuctionDataModel.Order_01" Role="Order_01" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order_01">
+              <PropertyRef Name="U_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AuctionDataModelStoreContainer" CdmEntityContainer="AuctionDataEntities1">
+          <EntitySetMapping Name="BatDatas">
+            <EntityTypeMapping TypeName="AuctionDataModel.BatData">
+              <MappingFragment StoreEntitySet="BatData">
+                <ScalarProperty Name="ProId" ColumnName="ProId" />
+                <ScalarProperty Name="CustID" ColumnName="CustID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="AuctionDataModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustProducts">
+            <EntityTypeMapping TypeName="AuctionDataModel.CustProduct">
+              <MappingFragment StoreEntitySet="CustProduct">
+                <ScalarProperty Name="U_id" ColumnName="U_id" />
+                <ScalarProperty Name="Video" ColumnName="Video" />
+                <ScalarProperty Name="Image4" ColumnName="Image4" />
+                <ScalarProperty Name="Image3" ColumnName="Image3" />
+                <ScalarProperty Name="Image2" ColumnName="Image2" />
+                <ScalarProperty Name="Image1" ColumnName="Image1" />
+                <ScalarProperty Name="Approvel" ColumnName="Approvel" />
+                <ScalarProperty Name="End_time" ColumnName="End_time" />
+                <ScalarProperty Name="Start_time" ColumnName="Start_time" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Pname_Id" ColumnName="Pname_Id" />
+                <ScalarProperty Name="C_id" ColumnName="C_id" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProNames">
+            <EntityTypeMapping TypeName="AuctionDataModel.ProName">
+              <MappingFragment StoreEntitySet="ProName">
+                <ScalarProperty Name="C_id" ColumnName="C_id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registrations">
+            <EntityTypeMapping TypeName="AuctionDataModel.Registration">
+              <MappingFragment StoreEntitySet="Registration">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="First_Name" ColumnName="First Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order_01">
+            <EntityTypeMapping TypeName="AuctionDataModel.Order_01">
+              <MappingFragment StoreEntitySet="Order_01">
+                <ScalarProperty Name="Approve" ColumnName="Approve" />
+                <ScalarProperty Name="Pro_id" ColumnName="Pro_id" />
+                <ScalarProperty Name="Bid_id" ColumnName="Bid_id" />
+                <ScalarProperty Name="U_id" ColumnName="U_id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

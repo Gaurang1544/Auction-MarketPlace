@@ -1,0 +1,410 @@
+﻿@model IEnumerable<Auction.Models.CustProduct>
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>BidZone</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+        .section-title {
+            text-align: center;
+            margin: 50px 0;
+            font-size: 32px;
+            font-weight: 700;
+            color: #007bff; /* Blue color for titles */
+        }
+
+        .auctions {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .auction-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            width: 320px;
+            height: 400px; /* Adjusted height */
+            overflow: hidden;
+            box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .auction-item:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
+            }
+
+            .auction-item img {
+                width: 100%;
+                height: auto;
+                max-height: 240px;
+                object-fit: contain;
+                margin: auto;
+            }
+
+            .auction-item .content {
+                padding: 15px;
+                text-align: center;
+                margin-top: auto; /* Pushes content to the bottom */
+                margin-bottom: 0; /* Ensure no extra space below */
+                transition: transform 0.3s ease;
+                box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
+            }
+
+                .auction-item .content h3 {
+                    font-size: 20px;
+                    margin-bottom: 10px;
+                    color: #343a40; /* Darker text color */
+                }
+
+                .auction-item .content p {
+                    margin: 0;
+                    color: #6c757d;
+                }
+
+                .auction-item .content .price {
+                    font-size: 18px;
+                    font-weight: 700;
+                    margin-top: 10px;
+                    color: #28a745; /* Green color for price */
+                }
+
+                .auction-item .content .bid-now {
+                    background-color: #007bff;
+                    color: #fff;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    display: inline-block;
+                    margin-top: 10px;
+                    transition: background-color 0.3s;
+                }
+
+                    .auction-item .content .bid-now:hover {
+                        background-color: #0056b3;
+                        box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+                    }
+
+        /*for slide show*/
+        .hero {
+            position: relative;
+            height: 600px;
+            width: 100%; /* New background image */
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            margin: 40px auto;
+            /*overflow: hidden;*/
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        }
+
+        .img-add {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        /* Next & previous buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 10px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+
+        .next {
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.8); /* Adjust to your preference */
+        }
+
+        .prev {
+            left: 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 5s;
+        }
+        /**/
+        @@keyframes fade {
+            from {
+                opacity: 1
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        /* On smaller screens, decrease text size */
+        @@media only screen and (max-width: 500px) {
+            .prev, .next {
+                font-size: 11px;
+            }
+        }
+
+        #toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050; /* Ensure it appears above other content */
+            display: none; /* Initially hidden */
+            padding: 15px;
+            background-color: #5cb85c; /* Success color */
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.5s, transform 0.5s;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+            #toast.show {
+                display: block; /* Show the toast */
+                opacity: 1; /* Fully visible */
+                transform: translateY(0); /* Move to original position */
+            }
+    </style>
+    <script>
+        $(document).ready(function () {
+            // Show toast message if exists
+            if ($('#toast').length) {
+                $('#toast').addClass('show').delay(3000).fadeOut(500, function () {
+                    $(this).removeClass('show'); // Remove class after fade out
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" id="toast">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    <section>
+        <div class="hero">
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+                    <img src="~/Images/11.jpg" class="img-add" />
+                </div>
+
+                <div class="mySlides fade">
+                    <img src="~/Images/3.jpg" class="img-add" />
+                </div>
+
+                <div class="mySlides fade">
+                    <img src="~/Images/9.jpg" class="img-add" />
+                </div>
+                <a class="prev" onclick="plusSlides(-1)">❮</a>
+                <a class="next" onclick="plusSlides(1)">❯</a>
+            </div>
+
+        </div>
+
+        <script>
+            let slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            function showSlides(n) {
+                let slides = document.getElementsByClassName("mySlides");
+                if (n > slides.length) { slideIndex = 1 }
+                if (n < 1) { slideIndex = slides.length }
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slides[slideIndex - 1].style.display = "block";
+            }
+
+            // Optional: Automatic slideshow
+            setInterval(() => {
+                plusSlides(1);
+            }, 5000);
+        </script>
+    </section>
+    <section>
+        <h2 class="section-title">Live Auction</h2>
+        <div class="auctions">
+            @foreach (var item in Model.Take(8))
+            {
+                int maxprice = item.BatDatas.Max(x => x.Price) ?? 0;
+
+                if (item.End_time > DateTime.Now)
+                {
+                    <div class="auction-item">
+                        <img src="@Url.Content("~/ProductImage/" + item.Image1)" />
+                        <div class="content">
+                            <h3>@item.Name</h3>
+                            <p class="price">Current bid: &#8377 @maxprice</p>
+
+                            <a class="bid-now" href="@Url.Action("Details", "AdminProducts", new { id = item.Id })">Bid Now</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </section>
+    <h2 class="section-title">Highest Bids on Auction Items</h2>
+    <section class="join">
+        <div class="container-1">
+            <div class="content">
+                <h1>Final Match Football Studs</h1>
+                <p>
+                    Experience the timeless charm of the vintage coffee bean grinder, meticulously crafted to bring you the perfect grind for a rich and flavorful.
+                </p>
+            </div>
+            <div class="image">
+                <img src="~/Images/shoes.jpg" />
+            </div>
+        </div>
+        <div class="container-2">
+            <div class="content">
+                <h1>Statue of Indian God</h1>
+                <p>
+                    This is an Indian god statue. It was made in the 1950s. It is a very rare piece in the world.This Item is Highhest Bids on Auction.
+                </p>
+            </div>
+            <div class="image">
+                <img src="~/Images/god.jpg" />
+            </div>
+        </div>
+    </section>
+    <section>
+        <h2 class="section-title">Upcoming Auctions</h2>
+        <div class="auctions">
+            @foreach (var item in Model.Take(5))
+            {
+                if (item.Start_time > DateTime.Now)
+                {
+                    <div class="auction-item">
+                        <img src="@Url.Content("~/ProductImage/" + item.Image1)" />
+                        <div class="content">
+                            <h3>@item.Name</h3>
+                            <p class="price">Base Price: &#8377 @item.Price</p>
+                            @*<a class="bid-now" href="#">Bid Now</a>*@
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p style="font-size:20px">There is no item now</p>
+                    break;
+                }
+            }
+        </div>
+    </section>
+    <section>
+        <h2 class="section-title">Closed Auctions</h2>
+        <div class="auctions">
+            @foreach (var item in Model.Take(8))
+            {
+                if (item.End_time < DateTime.Now)
+                {
+                    <div class="auction-item">
+                        <img src="@Url.Content("~/ProductImage/" + item.Image1)" />
+                        <div class="content">
+                            <h3>@item.Name</h3>
+                            <p class="price">Current bid: &#8377 @item.Price</p>
+                            <a class="bid-now" href="@Url.Action("Details", "AdminProducts", new { id = item.Id })">Show Now</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </section>
+    <style>
+        .join {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex; /* Use flex to display containers in a row */
+            justify-content: center; /* Center align the containers */
+            background-color: #f5f5f5;
+        }
+
+        .container-1, .container-2 {
+            display: flex;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 45%; /* Set width to allow both containers to fit side by side */
+            margin: 10px; /* Margin for spacing between containers */
+            height: 400px; /* Fixed height for consistent size */
+        }
+
+        .container-1 {
+            background: #ff6a3d;
+        }
+
+        .container-2 {
+            background: #353FE8;
+        }
+
+        .content {
+            padding: 40px;
+            color: white;
+            max-width: 400px;
+        }
+
+            .content h1 {
+                font-size: 36px;
+                margin-bottom: 20px;
+            }
+
+            .content p {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+
+        .image {
+            width: 100%; /* Take the full width of the container */
+            height: 100%; /* Match the height of the container */
+            overflow: hidden;
+            display: flex;
+            align-items: center; /* Center align the image vertically */
+            justify-content: center; /* Center align the image horizontally */
+        }
+
+            .image img {
+                width: 100%;
+                height: 100%; /* Fill the height of the container */
+                object-fit: cover; /* Maintain aspect ratio while covering the area */
+            }
+    </style>
+</body>
+</html>

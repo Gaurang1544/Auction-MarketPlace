@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Book Store Admin Panel</title>
+    @Scripts.Render("~/bundles/modernizr")
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  
+</head>
+<body>
+    <div class="sidebar">
+        <a href="@Url.Action("DashBoard", "AdminProducts")" class="homeLink @(ViewContext.RouteData.Values["action"].ToString() == "DashBoard" ? "active" : "")">
+            <i class="fa fa-tachometer-alt"></i> DashBoard
+        </a>
+        <a href="@Url.Action("Vendor", "AdminProducts")" class="homeLink @(ViewContext.RouteData.Values["action"].ToString() == "Vendor" ? "active" : "")">
+            <i class="fas fa-user"></i> Users list
+        </a>
+        <a href="@Url.Action("ProductList", "AdminProducts")" class="homeLink @(ViewContext.RouteData.Values["action"].ToString() == "ProductList" ? "active" : "")">
+            <i class='fas fa-list'></i> Product List
+        </a>
+        <a href="javascript:void(0)" class="homeLink dropdown-btn @(ViewContext.RouteData.Values["action"].ToString() == "BidAdmin" ? "active" : "")">
+            <i class='fas fa-check'></i> Auction Data
+            <i class="fa fa-caret-down"></i>
+        </a>
+        <div class="dropdown-container @(ViewContext.RouteData.Values["action"].ToString() == "LiveAuction" || ViewContext.RouteData.Values["action"].ToString() == "BidAdmin" ? "show" : "")">
+            <a href="@Url.Action("LiveAuction", "AdminProducts")" class="homeLink">Live Auction</a>
+            <a href="@Url.Action("BidAdmin", "BatDatas")" class="homeLink">Winner List</a>
+        </div>
+
+
+        <a href="@Url.Action("ProductDisplay", "AdminProducts")" class="homeLink @(ViewContext.RouteData.Values["action"].ToString() == "ProductDisplay" ? "active" : "")">
+            <i class='fas fa-history'></i> Order History
+        </a>
+        <a href="@Url.Action("Addcategory", "CustProducts", new {id = 8})" class="homeLink @(ViewContext.RouteData.Values["action"].ToString() == "Addcategory" ? "active" : "")">
+            <i class="fa fa-list-alt"></i> Add Category
+        </a>
+        <a href="@Url.Action("Reoprtbuy", "Home")" class="homeLink @(ViewContext.RouteData.Values["action"].ToString() == "Reoprtbuy" ? "active" : "")">
+            <i class='far fa- fa-clipboard'></i> Report
+        </a>
+        <a href="@Url.Action("Admineditprofile", "AdminProducts", new {id = 8})" class="homeLink @(ViewContext.RouteData.Values["action"].ToString() == "Admineditprofile" ? "active" : "")">
+            <i class='far fa-user-circle'></i> My Profile
+        </a>
+        <form action="@Url.Action("Logout", "Home")" method="post" style="display:inline;">
+            <button type="submit" class="homeLink signout-button">
+                <i class='fas fa-sign-out-alt'></i> Sign Out
+            </button>
+        </form>
+    </div>
+
+    <div class="content">
+        @RenderBody()
+    </div>
+</body>
+</html>
+<style>
+    .dropdown-container {
+        display: none; /* Hidden by default */
+    }
+
+        .dropdown-container.show {
+            display: block; /* Show when class is 'show' */
+        }
+    body {
+        margin: 0;
+        font-family: "Lato", sans-serif;
+    }
+
+    .sidebar {
+        margin: 0;
+        padding: 20px 0;
+        width: 220px;
+        background-color: #02111d;
+        position: fixed;
+        height: 100%;
+        overflow: auto;
+        color: #fff;
+    }
+
+        .sidebar a {
+            display: block;
+            color: #d4d4d4;
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+            .sidebar a:hover {
+                background-color: #575d63;
+                color: #fff;
+            }
+
+            .sidebar a.active {
+                background-color: #5dacbd;
+                color: white;
+            }
+
+    div.content {
+        margin-left: 220px;
+        padding: 20px;
+        height: 1000px;
+    }
+
+    .notification .badge {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        padding: 5px 5px;
+        border-radius: 50%;
+        background-color: red;
+    }
+    .signout-button {
+        background: none;
+        border: none;
+        padding: 15px 20px; /* Match padding with other links */
+        color: #d4d4d4; /* Match color with other links */
+        font-size: 15px; /* Match font size */
+        text-align: left; /* Align text to the left */
+        cursor: pointer; /* Change cursor to pointer */
+        width: 100%; /* Ensure full width */
+        transition: background-color 0.3s; /* Add transition for hover effect */
+    }
+
+        .signout-button:hover {
+            background-color: #575d63; /* Match hover effect */
+            color: white; /* Change text color on hover */
+        }
+
+        .signout-button:focus {
+            outline: none; /* Remove focus outline */
+        }
+
+
+    @@media screen and (max-width: 700px) {
+        .sidebar {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+
+            .sidebar a {
+                float: left;
+            }
+
+        div.content {
+            margin-left: 0;
+        }
+    }
+
+    @@media screen and (max-width: 400px) {
+        .sidebar a {
+            text-align: center;
+            float: none;
+        }
+    }
+
+    /* Dropdown styles */
+    .sidebar a, .dropdown-btn {
+        padding: 10px 20px;
+        text-decoration: none;
+        display: block;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        outline: none;
+        color: #d4d4d4;
+    }
+
+        .dropdown-btn:hover {
+            background-color: #575d63;
+        }
+
+    .dropdown-container {
+        display: none;
+        padding-left: 40px;
+        background-color: #3a3f45;
+    }
+
+    .fa-caret-down {
+        float: right;
+        padding-right: 8px;
+    }
+
+    @@media screen and (max-height: 450px) {
+        .sidebar {
+            padding-top: 15px;
+        }
+
+            .sidebar a {
+                font-size: 18px;
+            }
+    }
+</style>
+<script>
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+    }
+</script>

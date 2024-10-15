@@ -1,0 +1,154 @@
+﻿@model Auction.Models.Registration
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="toast" style="display:none; position: fixed; top: 20px; right: 20px; background-color: #28a745; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+        Category added successfully!
+    </div>
+    @using (Html.BeginForm("Edit", "Registrations", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <h1 class="edit-header">Change Profile</h1>
+        <div class="edit-main1">
+            <div class="edit-main">
+                <div class="edit-part1">
+                    <div class="form-group">
+                        @Html.Label("First Name", htmlAttributes: new { @class = "control-label1" })
+                        @Html.EditorFor(model => model.First_Name, new { htmlAttributes = new { @class = "form-control s3", placeholder = "Enter First Name", tabindex = "1" } })
+                        @Html.ValidationMessageFor(model => model.First_Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Last Name", htmlAttributes: new { @class = "control-label1" })
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control s3", placeholder = "Enter Last Name", tabindex = "2" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Mobile", htmlAttributes: new { @class = "control-label1" })
+                        @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control s3", placeholder = "Enter Phone Number", maxlength = 10, tabindex = "4" } })
+                        @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Address", htmlAttributes: new { @class = "control-label1" })
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control s3", placeholder = "abc@gmail.com", tabindex = "3" } })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Email", htmlAttributes: new { @class = "control-label1" })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control s3", placeholder = "abc@gmail.com", tabindex = "3" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Password", htmlAttributes: new { @class = "control-label1" })
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control s3", placeholder = "**********", tabindex = "5", type = "password" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="edit-part2">
+                    @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control s3",style="display:none"} })
+                    @Html.Label("Change Profile Image", htmlAttributes: new { @class = "control-label1" })
+                    <div class="img-section">
+                        @if (Model.Image == null)
+                        {
+                            <img src="~/Images/profile.png" class="edit-img" />
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/Images/" + Model.Image)" alt="Profile Image" class="edit-img" /><br />
+                        }
+                        <input type="file" name="image1" class="form-control s1" />
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center">
+                <button type="submit" class="btn-primary s2" tabindex="6">Save Changes</button>
+            </div>
+        </div>
+    }
+
+    <script>
+         function showToast(message) {
+     const toast = document.getElementById('toast');
+     toast.textContent = message;
+     toast.style.display = 'block';
+
+     setTimeout(() => {
+         toast.style.display = 'none';
+     }, 3000); // Hide after 3 seconds
+ }
+
+ // Check if there's a success message
+ @if (TempData["SuccessMessage"] != null)
+ {
+     <text>
+         showToast('@TempData["SuccessMessage"]');
+     </text>
+ }
+    </script>
+</body>
+</html>
+<style>
+    .edit-header {
+        margin-top: 40px;
+        margin-left: 190px;
+        margin-bottom: 2px;
+        border-bottom: 4px solid #007bff;
+        display: inline-block;
+    }
+    .edit-main1 {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+    }
+    .edit-main{
+        display:flex;
+    }
+    .edit-part1{
+        /*background:#808080;*/
+        margin:10px auto;
+        width:45%;
+    }
+    .edit-part2 {
+        /*background: #808080;*/
+        margin:10px auto;
+        width: 45%;
+    }
+    .edit-img{
+        width:70%;
+        margin:0px auto;
+    }
+    .img-section{
+        text-align:center;
+        width:100%;
+        height:400px;
+    }
+    .control-label1{
+        font-size:20px;
+        font-weight:bold;
+    }
+    .s1 {
+        border: none;
+        outline: none;
+        margin: 10px auto;
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+    }
+    .s2{
+        width:80%;
+        border:none;
+        outline:none;
+        padding:6px;
+        border-radius:3px;
+        margin:20px auto;
+    }
+    .s3 {
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+    }
+</style>

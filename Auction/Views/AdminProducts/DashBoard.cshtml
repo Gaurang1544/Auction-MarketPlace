@@ -1,0 +1,131 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"> <!-- FontAwesome CDN -->
+    <style>
+        .box {
+            border: 1px solid #ddd;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            height: 280px; /* Fixed height */
+            width: 520px; /* Increased width */
+            border-radius: 10px;
+            margin:20px;
+            background-color: #1d64ab;
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s;
+            position: relative;
+        }
+
+        .box:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        .box .circle {
+            background-color: #fff;
+            color: #1d64ab;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .row {
+            margin-bottom: 20px;
+            margin-top: 40px;
+            display: flex; /* Use flex to control layout */
+            flex-wrap: wrap; /* Allow wrapping */
+            justify-content: center; /* Center the boxes */
+        }
+
+        .container {
+            width: 100%;
+            padding: 20px;
+        }
+
+        @@media (max-width: 768px) {
+            .box {
+                width: 100%; /* Full width on small screens */
+                height: auto; /* Adjust height */
+            }
+        }
+        h1{
+            font-weight:bold;
+            display:flex;
+            border-bottom:1px solid black;
+           
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My DashBoard</h1>
+        <div class="row">
+            <div class="col">
+                <a href="@Url.Action("Vendor","AdminProducts")" style="text-decoration:none;">
+                    <div class="box">
+                        <div>
+                            <i class='fas fa-user-circle' style='font-size:35px;'></i> Total User
+                        </div>
+                        <div class="circle">@ViewBag.Count</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="@Url.Action("ProductList","AdminProducts")" style="text-decoration:none;">
+                    <div class="box">
+                        <div>
+                            <i class='fas fa-list' style='font-size:35px;'></i> Total Product
+                        </div>
+                        <div class="circle">@ViewBag.Product</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="@Url.Action("LiveAuction","AdminProducts")" style="text-decoration:none;">
+                    <div class="box">
+                        <div>
+                            <i class='fa fa-gavel' style='font-size:35px;'></i> Live Auction
+                        </div>
+                        <div class="circle">@ViewBag.BatDatas</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="@Url.Action("ProductDisplay","AdminProducts")" style="text-decoration:none;">
+                    <div class="box">
+                        <div>
+                            <i class='fas fa-award' style='font-size:35px;'></i> Winner List
+                        </div>
+                        <div class="circle">  @ViewBag.winer1 </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

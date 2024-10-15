@@ -1,0 +1,218 @@
+﻿@model IPagedList<Auction.Models.CustProduct>
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+@using PagedList.Mvc
+@using PagedList
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+        }
+        .H-main {
+            width: 90%; 
+            max-width: 1800px;
+            margin: 50px auto;
+            padding: 50px; 
+            background: #ffffff;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start; /* Align items to the left */
+            margin: 0; /* Remove extra margins */
+        }
+
+        .product-item {
+            width: calc(25% - 20px); /* Four items per row with spacing */
+            max-width: 320px; /* Set max width */
+            margin: 10px 40px; /* Margin around each product item */
+            text-align: left;
+            background: #ffffff;
+            border-radius: 5px;
+            box-sizing: border-box;
+            height: 380px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+            .product-item:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
+            }
+
+            .product-item img {
+                width: 100%;
+                height: 240px; /* Fixed height */
+                object-fit: contain; /* Ensures the entire image is visible */
+                object-position: center; /* Center the image */
+            }
+
+        .time-bid {
+            margin: 10px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 100;
+            color: #808080;
+            box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+        }
+
+        .countdown {
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .product-item-2 {
+            margin: 5px 0;
+            border-top: 1px solid #c3c3c3;
+            text-align: center;
+            font-size: 18px;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style-type: none;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .pagination a, .pagination span {
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 0 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .pagination a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+      @@media (max-width: 768px) {
+    .product-item {
+        width: calc(50% - 20px); /* Two items per row on medium screens */
+    }
+}
+@@media (max-width: 480px) {
+    .product-item {
+        width: 100%; /* One item per row on small screens */
+    }
+}
+        h1 {
+            font-weight: bold;
+            margin: 10px auto;
+            border-bottom: 5px solid #06b53f;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="H-main">
+        <h1>Live Auction--</h1>
+        <div class="row">
+            @foreach (var item in ViewBag.PagedList1)
+            {
+                if (item.Start_time<DateTime.Now && item.End_time > DateTime.Now)
+                {
+                    var uniqueId = "countdown_" + item.Id;
+
+                    <div class="product-item">
+                        <div>
+                            <a href="@Url.Action("Details", "AdminProducts", new { id = item.Id })">
+                                <img src="@Url.Content("~/ProductImage/" + item.Image1)" class="A-Image1" />
+                            </a>
+                        </div>
+                        <div class="time-bid">
+                            <p id="@uniqueId" class="countdown" data-end-time="@item.End_time.ToString("o")"></p>
+                        </div>
+                        <div class="product-item-2">
+                            <span style="font-size:90%; white-space: nowrap;">@item.Name</span>
+                            <p style="font-size:17px;font-weight:100">Base Price :<b>&#8377;@item.Price</b></p>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div style="float:left">
+            @Html.PagedListPager(
+         (IPagedList<Auction.Models.CustProduct>)ViewBag.PagedList1,
+         page => Url.Action("MainHomePage", new { page1 = page, searchdata = Request.QueryString["searchdata"], id = Request.QueryString["id"] })
+     )
+        </div>
+    </div>
+
+    <div class="H-main">
+        <h1>Upcomming Auction--</h1>
+        <div class="row">
+            @foreach (var item in ViewBag.PagedList1)
+            {
+                if (item.Start_time > DateTime.Now && item.End_time > DateTime.Now)
+                {
+                    var uniqueId = "countdown_" + item.Id;
+
+                    <div class="product-item">
+                        <div>
+                            <a href="@Url.Action("Details", "AdminProducts", new { id = item.Id })">
+                                <img src="@Url.Content("~/ProductImage/" + item.Image1)" class="A-Image1" />
+                            </a>
+                        </div>
+                        <div class="time-bid">
+                            <p id="@uniqueId" class="countdown" data-end-time="@item.End_time.ToString("o")"></p>
+                        </div>
+                        <div class="product-item-2">
+                            <span style="font-size:90%; white-space: nowrap;">@item.Name</span>
+                            <p style="font-size:17px;font-weight:100">Base Price :<b>&#8377;@item.Price</b></p>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+       
+    </div>
+    <script>
+        function updateCountdown() {
+            document.querySelectorAll('.countdown').forEach(function (element) {
+                var endTimeString = element.getAttribute('data-end-time');
+                console.log("End Time String:", endTimeString);
+
+                var endTime = new Date(endTimeString);
+                if (isNaN(endTime.getTime())) {
+                    console.error("Invalid date:", endTimeString);
+                    element.innerHTML = "Invalid date!";
+                    return;
+                }
+
+                var now = new Date().getTime();
+                var timeRemaining = endTime - now;
+
+                if (timeRemaining <= 0) {
+                    element.innerHTML = "Time's Up!";
+                    return;
+                }
+
+                var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                element.innerHTML = `${days} : ${hours} : ${minutes} : ${seconds} <br> Time Left`;
+            });
+        }
+
+        window.onload = function () {
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+    </script>
+</body>
+</html>

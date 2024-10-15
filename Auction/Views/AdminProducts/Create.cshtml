@@ -1,0 +1,193 @@
+﻿@model Auction.Models.CustProduct
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="A-Product-Main">
+        <h2>Add Product</h2>
+        @using (Html.BeginForm("Create", "AdminProducts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="A-Product-Card">
+                <div class="A-Card1">
+                    <div class="A-Sub-Card">
+                        <h4>General Information</h4>
+                        <div>
+                            @Html.Label("Product Name", htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.P_Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.P_Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })<br />
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control text-area1" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="A-Sub-Card">
+                        <h4>Pricing And Category</h4>
+                        @Html.Label("Product Price", htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                        <div>
+                            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="A-Sub-Card">
+                        <h4>Timing</h4>
+                        @Html.Label("Start Time", htmlAttributes: new { @class = "control-label" })
+                        @* <input type="date" id="Date" name="St_time" value="St_time" class="form-control" placeholder="Enter Date" min="<?php echo date('Y-m-d\TH:i'); ?>" />*@
+                        @Html.Editor("StartTime", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local", @min = DateTime.Now.ToString("yyyy-MM-ddTHH:mm"), @value = DateTime.Now.ToString("yyyy-MM-ddTHH:mm"), @name = "St_time" } })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+
+
+                        @Html.Label("End Time", htmlAttributes: new { @class = "control-label" })
+                       @* <input type="date" id="Date" name="End_time" value="End_time" class="form-control" placeholder="Enter Date" min="<?php echo date('Y-m-d\TH:i'); ?>" />*@
+                        @Html.Editor("StartTime", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local", @min = DateTime.Now.ToString("yyyy-MM-ddTHH:mm"), @value = DateTime.Now.ToString("yyyy-MM-ddTHH:mm"), @name = "End_time" } })
+
+                    </div>
+
+                </div>
+                <div class="A-Card2">
+                    <div class="A-Sub-Card">
+                        <h4>Product Media</h4>
+                        <div class="A-Image">
+                            @Html.HiddenFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+                            <img src="@Url.Content("~/Images/" + Model.Image)" class="A-Image1" />
+                        </div>
+                        <label class="file-input-container">
+                            <input type="file" name="Image" />
+                            Upload New Image
+                        </label>
+                    </div>
+                   
+                    <div class="A-Sub-Card">
+                        <h4>Shhiping And Delivery Time</h4>
+                        <div>
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })<br />
+                            <textarea rows="4" cols="50" placeholder="Enter Shipping Information" name="Shhiping_D" value="Shhiping_D"></textarea>
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+
+                        @Html.Label("Start Time", htmlAttributes: new { @class = "control-label" })
+                        @*<input type="datetime-local" id="Date" name="Del_St_time" value="Del_St_time" class="form-control" placeholder="Enter Date" />*@
+                        @Html.Editor("StartTime", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local", @min = DateTime.Now.ToString("yyyy-MM-ddTHH:mm"), @value = DateTime.Now.ToString("yyyy-MM-ddTHH:mm"), @name = "Del_St_time" } })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+
+                        @Html.Label("End Time", htmlAttributes: new { @class = "control-label" })
+                        @* <input type="datetime-local" id="Date" name="Del_End_time" value="Del_End_time" class="form-control" placeholder="Enter Date" />*@
+                        @Html.Editor("End Time", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local", @min = DateTime.Now.ToString("yyyy-MM-ddTHH:mm"), @value = DateTime.Now.ToString("yyyy-MM-ddTHH:mm"), @name = "Del_End_time" } })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="A-Sub-Card">
+                        <input type="submit" value="Create" class="A-Submit" />
+                    </div>
+                </div>
+                </div>
+        }
+        </div>
+</body>
+</html>
+<style>
+    .A-Product-Main {
+        width: 90%; 
+        margin: 10px auto; 
+        text-align: center;
+        background:#f3f7f2;
+        padding:10px;
+    }
+    .A-Product-Card {
+        width: 90%;
+        padding: 10px;
+        background: #ffffff;
+        margin: 10px auto;
+        display: flex;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .A-Card1 {
+        width: 60%;
+        background: #ffffff;
+        margin: 10px;
+        padding: 10px;
+        text-align: left;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        border-radius:8px;
+    }
+    .A-Card2 {
+        width: 40%;
+        background: #ffffff;
+        margin: 10px;
+        padding: 10px;
+        text-align: left;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+    }
+    .text-area1{
+        width:100%;
+        height:60px;
+    }
+    .A-Sub-Card{
+        margin:20px;
+        background:#ffffff;
+        border-radius:5px;
+        padding:2px;
+    }
+    .A-Submit{
+        width:100%;
+        height:100%;
+        padding:8px;
+        background:#808080;
+        border:none;
+        border-radius:3px;
+        background:#13aa37;
+    }
+    .A-Submit:hover {
+        background: #014b13;
+        color:#fff;
+    }
+    .A-Image {
+        height: auto;
+        width: 70%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        margin:10px auto;
+        text-align:center;
+    }
+    .A-Image1{
+        width:100%;
+    }
+    .file-input-container {
+        position: relative;
+        width: 100%; 
+        height: 35px;
+        overflow: hidden;
+        background-color: #f1f1f1;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        display: inline-block;
+        padding: 5px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .file-input-container input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        h4{
+            font-size:21px;
+            font-weight:bold;
+        }
+</style>

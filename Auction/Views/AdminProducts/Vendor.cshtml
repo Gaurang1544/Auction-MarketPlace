@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Auction.Models.Registration>
+@using PagedList.Mvc
+@using PagedList
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .header-vendor {
+            font-size: 30px;
+            margin: 20px 0;
+            text-align: center;
+            color: #333;
+        }
+
+        hr {
+            color: #000000;
+        }
+
+        .Vendor-main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start; /* Align items to the start */
+            margin: 10px -5px; /* Adjust margin for alignment */
+        }
+
+        .Vendoe-Card {
+            height: 240px;
+            width: 300px;
+            background: #ffffff;
+            margin: 10px;
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+            .Vendoe-Card:hover {
+                transform: scale(1.05);
+            }
+
+        .vendor-part1 {
+            height: 80%;
+            padding: 5px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .vendor-part2 {
+            height: 20%;
+            padding: 5px 20px;
+            text-align: left;
+        }
+
+        .image1 {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background: #808080;
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
+            margin: 7.5px auto;
+        }
+
+        .user-detail {
+            border-radius: 50%;
+            padding: 0px 7px;
+            font-size: 25px;
+            font-weight: bold;
+            color: #ffffff;
+            background: #2695ff;
+            border: none;
+        }
+
+            .user-detail:hover {
+                background: #ffffff;
+                color: #808080;
+                text-decoration: none;
+            }
+
+        .circle-01 {
+            float: right;
+            height: 65px;
+            width: 65px;
+            background: #ffffff;
+            text-align: center;
+            border-radius: 50%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="header-vendor">Vendors List</h1>
+    <hr />
+    <div class="Vendor-main">
+        @foreach (var item in ViewBag.PagedList1)
+        {
+            if (item.Type == "Customer")
+            {
+            <div class="Vendoe-Card">
+                <div class="vendor-part1">
+                    <h3>@item.First_Name @item.LastName</h3>
+                    <h4>@item.Mobile</h4>
+                    <div class="circle-01">
+                        <a href="@Url.Action("VendorDetail", "AdminProducts", new { id = item.Id })" class="image1">
+                            <img src="@Url.Content("~/Images/" + item.Image)" class="image1" />
+                        </a>
+                    </div>
+                </div>
+                <div class="vendor-part2">
+                    <a href="@Url.Action("VendorDetail", "AdminProducts", new { id = item.Id })" class="user-detail">&gt;</a>
+                </div>
+            </div>
+            }
+        }
+    </div>
+    @Html.PagedListPager((IPagedList<Auction.Models.Registration>)ViewBag.PagedList1, page1 => Url.Action("Vendor", "AdminProducts", new { page1 = page1, search = Request.QueryString["search"] }))
+</body>
+</html>
